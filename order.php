@@ -523,7 +523,7 @@ include('header.php');
                                     _('msg_area').innerHTML = '';
                                 }, 5000);
                             } else {
-                                mySelect.disableItems(med_id);
+                                // mySelect.disableItems(med_id);
                                 var no = random_number(1, 99999);
                                 var html = '<tr id="' + no + '">';
                                 html += '<td>' + responseData.medicine_name + '<input type="hidden" name="medicine_id[]" value="' + responseData.medicine_id + '" /><input type="hidden" name="medicine_purchase_id[]" value="' + responseData.medicine_purchase_id + '" /></td>';
