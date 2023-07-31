@@ -21,14 +21,7 @@ if(isset($_POST["login_button"]))
     }
     else
     {
-        if(!filter_var($_POST["user_email"], FILTER_VALIDATE_EMAIL))
-        {
-            $message .= '<li>Invalid Email Address</li>';
-        }
-        else
-        {
-            $formdata['user_email'] = trim($_POST["user_email"]);
-        }
+        $formdata['user_email'] = trim($_POST["user_email"]);
     }
 
     if(empty($_POST["user_password"]))
@@ -94,7 +87,7 @@ if(isset($_POST["login_button"]))
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Login | Medical Store Management System in PHP</title>
+        <title>Login | EMERGENCE Hopital Management System in PHP</title>
         <link href="<?php echo $object->base_url; ?>css/styles.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
     </head>
@@ -118,11 +111,11 @@ if(isset($_POST["login_button"]))
                                         <form method="post">
                                             <div class="form-floating mb-3">
                                                 <input class="form-control" id="user_email" type="text" name="user_email" placeholder="name@example.com" value="<?php if(isset($_POST['user_email'])) echo $_POST['user_email']; ?>" />
-                                                <label for="user_email">Email address</label>
+                                                <label for="user_email">Numero de telephone</label>
                                             </div>
                                             <div class="form-floating mb-3">
                                                 <input class="form-control" id="user_password" type="password" name="user_password" placeholder="Password" value="<?php if(isset($_POST['user_password'])) echo $_POST['user_password']; ?>" />
-                                                <label for="user_password">Password</label>
+                                                <label for="user_password">mot de passe</label>
                                             </div>
                                             <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                                                 <input type="submit" name="login_button" class="btn btn-primary" value="Login" />

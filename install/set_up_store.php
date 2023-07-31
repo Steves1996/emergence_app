@@ -836,6 +836,11 @@ if(isset($_POST["submit"]))
                 'countryname'=> 'Zimbabwe',
                 'name'=> 'Zimbabwean dollar',
                 'symbol'=> '&#90;&#36;'),
+                
+            array('code'=> 'CM',
+            'countryname'=> 'Cameroun',
+            'name'=> 'CAmeroun franc',
+            'symbol'=> '&#90;&#36;'),
         );
         
         return $currencies;
