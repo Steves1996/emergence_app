@@ -46,7 +46,7 @@ if (isset($_POST["add_order"])) {
     }
 
     if (empty($_POST["doctor_name"])) {
-        $error .= '<li>Doctor Name is required</li>';
+        $formdata['doctor_name'] = "unknown";
     } else {
         if (!preg_match("/^[a-zA-Z-0-9' ]*$/", $_POST["doctor_name"])) {
             $error .= '<li>Only letters, Numbers and white space allowed</li>';
@@ -188,7 +188,7 @@ if (isset($_POST["edit_order"])) {
     }
 
     if (empty($_POST["doctor_name"])) {
-        $error .= '<li>Doctor Name is required</li>';
+        $formdata['doctor_name'] = "unknown";
     } else {
         if (!preg_match("/^[a-zA-Z-0-9' ]*$/", $_POST["doctor_name"])) {
             $error .= '<li>Only letters, Numbers and white space allowed</li>';
