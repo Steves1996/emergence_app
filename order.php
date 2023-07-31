@@ -36,7 +36,7 @@ if (isset($_POST["add_order"])) {
     $formdata = array();
 
     if (empty($_POST["patient_name"])) {
-        $error .= '<li>Patient Name is required</li>';
+        $formdata['patient_name'] = "unknown";
     } else {
         if (!preg_match("/^[a-zA-Z-0-9' ]*$/", $_POST["patient_name"])) {
             $error .= '<li>Only letters, Numbers and white space allowed</li>';
@@ -178,7 +178,7 @@ if (isset($_POST["edit_order"])) {
     $formdata = array();
 
     if (empty($_POST["patient_name"])) {
-        $error .= '<li>Patient Name is required</li>';
+        $formdata['patient_name'] = "unknown";
     } else {
         if (!preg_match("/^[a-zA-Z-0-9' ]*$/", $_POST["patient_name"])) {
             $error .= '<li>Only letters, Numbers and white space allowed</li>';
@@ -450,8 +450,11 @@ include('header.php');
                                                                     <td>' . $object->Get_Medicine_company_code($order_row["medicine_manufactured_by"]) . '</td>
                                                                     <td>' . $order_row['medicine_batch_no'] . '</td>
                                                                     <td>' . $order_row["medicine_expired_month"] . '/' . $order_row["medicine_expired_year"] . '</td>
-                                                                    <td><input type="number" name="medicine_quantity[]" class="form-control medicine_quantity" placeholder="Quantity" value="' . $_POST["medicine_quantity"][$i] . '" min="1" onblur="calculate_total()" /></td>
-                                                                    <td><span class="item_unit_price">' . $order_row['medicine_sale_price_per_unit'] . '</span><input type="hidden" name="medicine_price[]" value="' . $order_row['medicine_sale_price_per_unit'] . '" /></td>
+
+                                                                    <td><input type="number" name="medicine_quantity[]" class="form-control medicine_quantity" placeholder="Quantity" value="' . $_POST["medicine_quantity"][$i] . '" min="1" onblur="check_qty(this); calculate_total();" /></td>
+
+                                                                    <td><input type="number" name="medicine_price[]" class="form-control item_unit_price" placeholder="Unit Price" value="' . $order_row['medicine_sale_price_per_unit'] . '" min="1" /></td>
+
                                                                     <td><span class="item_total_price">' . $order_row['medicine_sale_price_per_unit'] * $_POST["medicine_quantity"][$i] . '</span></td>
                                                                     <td><button type="button" name="remove_item" class="btn btn-danger btn-sm" onclick="deleteRow(this)"><i class="fas fa-minus"></i></button></td>
                                                                 </tr>
