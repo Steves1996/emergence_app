@@ -683,9 +683,9 @@ include('header.php');
 
                                                                 <td><input type="number" name="medicine_quantity[]" class="form-control medicine_quantity" placeholder="Quantity" value="' . $order_item_row["medicine_quantity"] . '" min="1" onblur="check_qty(this); calculate_total();" /></td>
 
-                                                                <td><input type="number" name="medicine_price[]" class="form-control item_unit_price" placeholder="Unit price" value="' . $order_item_row['medicine_price'] . '" onblur="calculate_total();"/></td>
+                                                                <td><input type="number" name="medicine_price[]" class="form-control item_unit_price" placeholder="Unit price" value="' . $order_item_row['medicine_price'] . '" min="1" onblur="calculate_total()"/></td>
 
-                                                                <td><span class="item_total_price">' . number_format($medicine_pur_row['medicine_sale_price_per_unit'] * $order_item_row["medicine_quantity"], 2) . '</span></td>
+                                                                <td><span class="item_total_price">' . number_format($order_item_row['medicine_price'] * $order_item_row["medicine_quantity"], 2) . '</span></td>
                                                                 <td><button type="button" name="remove_item" class="btn btn-danger btn-sm" onclick="delete_data(`' . $object->convert_data($order_item_row["order_item_id"]) . '`, `' . $_GET["code"] . '`);"><i class="fas fa-minus"></i></button></td>
                                                             </tr>
                                                             ';
