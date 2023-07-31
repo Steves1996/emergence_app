@@ -680,8 +680,11 @@ include('header.php');
                                                                 <td>' . $object->Get_Medicine_company_code($medicine_pur_row["medicine_manufactured_by"]) . '</td>
                                                                 <td>' . $medicine_pur_row['medicine_batch_no'] . '</td>
                                                                 <td>' . $medicine_pur_row["medicine_expired_month"] . '/' . $medicine_pur_row["medicine_expired_year"] . '</td>
-                                                                <td><input type="text" name="medicine_quantity[]" class="form-control medicine_quantity" placeholder="Quantity" value="' . $order_item_row["medicine_quantity"] . '" min="1" onblur="check_qty(this); calculate_total();" /></td>
-                                                                <td><span class="item_unit_price">' . $medicine_pur_row['medicine_sale_price_per_unit'] . '</span><input type="hidden" name="medicine_price[]" value="' . $order_item_row['medicine_price'] . '" /></td>
+
+                                                                <td><input type="number" name="medicine_quantity[]" class="form-control medicine_quantity" placeholder="Quantity" value="' . $order_item_row["medicine_quantity"] . '" min="1" onblur="check_qty(this); calculate_total();" /></td>
+
+                                                                <td><input type="number" name="medicine_price[]" class="form-control item_unit_price" placeholder="Unit price" value="' . $order_item_row['medicine_price'] . '" onblur="calculate_total();"/></td>
+
                                                                 <td><span class="item_total_price">' . number_format($medicine_pur_row['medicine_sale_price_per_unit'] * $order_item_row["medicine_quantity"], 2) . '</span></td>
                                                                 <td><button type="button" name="remove_item" class="btn btn-danger btn-sm" onclick="delete_data(`' . $object->convert_data($order_item_row["order_item_id"]) . '`, `' . $_GET["code"] . '`);"><i class="fas fa-minus"></i></button></td>
                                                             </tr>
@@ -722,8 +725,8 @@ include('header.php');
                             if (qty.length > 0) {
                                 for (var i = 0; i < qty.length; i++) {
                                     console.log('Qty - ' + qty[i].value);
-                                    console.log('Unit Price - ' + unit_price[i].innerHTML);
-                                    var temp_total_price = parseFloat(qty[i].value) * parseFloat(unit_price[i].innerHTML);
+                                    console.log('Unit Price - ' + unit_price[i].value);
+                                    var temp_total_price = parseFloat(qty[i].value) * parseFloat(unit_price[i].value);
                                     total_price[i].innerHTML = temp_total_price.toFixed(2);
                                     total = parseFloat(total) + parseFloat(temp_total_price);
                                 }
