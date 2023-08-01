@@ -37,14 +37,7 @@ if(isset($_POST["add_user"]))
     }
     else
     {
-        if (!preg_match("/^[a-zA-Z-' ]*$/", $_POST["user_name"]))
-        {
-            $error .= '<li>Only letters and white space allowed</li>';
-        }
-        else
-        {
-            $formdata['user_name'] = trim($_POST["user_name"]);
-        }
+        $formdata['user_name'] = trim($_POST["user_name"]);
     }
 
     if(empty($_POST["user_email"]))
@@ -112,14 +105,7 @@ if(isset($_POST["edit_user"]))
     }
     else
     {
-        if (!preg_match("/^[a-zA-Z-' ]*$/", $_POST["user_name"]))
-        {
-            $error .= '<li>Only letters and white space allowed</li>';
-        }
-        else
-        {
-            $formdata['user_name'] = trim($_POST["user_name"]);
-        }
+        $formdata['user_name'] = trim($_POST["user_name"]);
     }
 
     if(empty($_POST["user_email"]))
@@ -241,7 +227,7 @@ include('header.php');
                                                 </div>
                                                 <div class="form-floating mb-3">
                                                     <input class="form-control" id="user_email" type="text" placeholder="Enter User Email Address" name="user_email" value="<?php if(isset($_POST["user_email"])) echo $_POST["user_email"]; ?>" />
-                                                    <label for="user_email">Email</label>
+                                                    <label for="user_email">Numero de telephone</label>
                                                 </div>
                                                 <div class="form-floating mb-3">
                                                     <input class="form-control" id="user_password" type="password" placeholder="Enter User Password" name="user_password" value="<?php if(isset($_POST["user_password"])) echo $_POST["user_password"]; ?>" />

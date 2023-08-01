@@ -353,7 +353,7 @@ include('header.php');
 ?>
 
 <div class="container-fluid px-4">
-    <h1 class="mt-4">Order Management</h1>
+    <h1 class="mt-4">Gestion des ventes</h1>
 
     <?php
     if (isset($_GET["action"], $_GET["code"])) {
@@ -362,8 +362,8 @@ include('header.php');
 
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-                <li class="breadcrumb-item"><a href="order.php">Order Management</a></li>
-                <li class="breadcrumb-item active">Add Order</li>
+                <li class="breadcrumb-item"><a href="order.php">Gestion des ventes</a></li>
+                <li class="breadcrumb-item active">Ajouter une vente</li>
             </ol>
 
             <?php
@@ -374,7 +374,7 @@ include('header.php');
             <span id="msg_area"></span>
             <div class="card mb-4">
                 <div class="card-header">
-                    <i class="fas fa-user-plus"></i> Add Order
+                    <i class="fas fa-user-plus"></i> Ajouter une vente
                 </div>
                 <div class="card-body">
                     <form method="post">
@@ -398,7 +398,7 @@ include('header.php');
                                     <?php echo $object->get_medicine_array(); ?>
                                 </select>
                                 &nbsp;
-                                <button type="button" name="add_medicine" id="add_medicine" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Add Medicine</button>
+                                <button type="button" name="add_medicine" id="add_medicine" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Ajouter un medicament</button>
                             </div>
                             <div class="col-md-6">
 
@@ -534,8 +534,8 @@ include('header.php');
                                 html += '<td>' + responseData.medicine_company + '</td>';
                                 html += '<td>' + responseData.medicine_batch_no + '</td>';
                                 html += '<td>' + responseData.medicine_expiry_date + '</td>';
-                                html += '<td><input type="number" name="medicine_quantity[]" class="form-control medicine_quantity" placeholder="Quantity" value="1" min="1" onblur="check_qty(this); calculate_total();" data-number="' + no + '" /></td>';
-                                html += '<td><input type="number" name="medicine_price[]" class="form-control item_unit_price" value="' + responseData.medicine_sale_price_per_unit + '" onblur="calculate_total();" data-number="' + no + '"/></td>';
+                                html += '<td><input type="text" name="medicine_quantity[]" class="form-control medicine_quantity" placeholder="Quantity" value="1" min="1" onblur="check_qty(this); calculate_total();" data-number="' + no + '" /></td>';
+                                html += '<td><input type="text" name="medicine_price[]" class="form-control item_unit_price" value="' + responseData.medicine_sale_price_per_unit + '" onblur="calculate_total();" data-number="' + no + '"/></td>';
                                 html += '<td><span class="item_total_price" id="item_total_price_' + no + '">' + responseData.medicine_sale_price_per_unit + '</span></td>';
                                 html += '<td><button type="button" name="remove_item" class="btn btn-danger btn-sm" onclick="deleteRow(this)"><i class="fas fa-minus"></i></button></td>';
                                 html += '</tr>';
@@ -610,8 +610,8 @@ include('header.php');
             ?>
                     <ol class="breadcrumb mb-4">
                         <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-                        <li class="breadcrumb-item"><a href="order.php">Order Management</a></li>
-                        <li class="breadcrumb-item active">Edit Order Data</li>
+                        <li class="breadcrumb-item"><a href="order.php">Gestion des ventes</a></li>
+                        <li class="breadcrumb-item active">Modifier une vente</li>
                     </ol>
                     <?php
                     if (isset($error) && $error != '') {
@@ -621,7 +621,7 @@ include('header.php');
 
                     <div class="card mb-4">
                         <div class="card-header">
-                            <i class="fas fa-user-plus"></i> Edit Order Data
+                            <i class="fas fa-user-plus"></i> Modifier une vente
                         </div>
                         <div class="card-body">
                             <form method="post">
@@ -684,9 +684,9 @@ include('header.php');
                                                                 <td>' . $medicine_pur_row['medicine_batch_no'] . '</td>
                                                                 <td>' . $medicine_pur_row["medicine_expired_month"] . '/' . $medicine_pur_row["medicine_expired_year"] . '</td>
 
-                                                                <td><input type="number" name="medicine_quantity[]" class="form-control medicine_quantity" placeholder="Quantity" value="' . $order_item_row["medicine_quantity"] . '" min="1" onblur="check_qty(this); calculate_total();" /></td>
+                                                                <td><input type="text" name="medicine_quantity[]" class="form-control medicine_quantity" placeholder="Quantity" value="' . $order_item_row["medicine_quantity"] . '" min="1" onblur="check_qty(this); calculate_total();" /></td>
 
-                                                                <td><input type="number" name="medicine_price[]" class="form-control item_unit_price" placeholder="Unit price" value="' . $order_item_row['medicine_price'] . '" min="1" onblur="calculate_total()"/></td>
+                                                                <td><input type="text" name="medicine_price[]" class="form-control item_unit_price" placeholder="Unit price" value="' . $order_item_row['medicine_price'] . '" min="1" onblur="calculate_total()"/></td>
 
                                                                 <td><span class="item_total_price">' . number_format($order_item_row['medicine_price'] * $order_item_row["medicine_quantity"], 2) . '</span></td>
                                                                 <td><button type="button" name="remove_item" class="btn btn-danger btn-sm" onclick="delete_data(`' . $object->convert_data($order_item_row["order_item_id"]) . '`, `' . $_GET["code"] . '`);"><i class="fas fa-minus"></i></button></td>
@@ -771,7 +771,7 @@ include('header.php');
 
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-            <li class="breadcrumb-item active">Order Management</li>
+            <li class="breadcrumb-item active">Gestion des ventes</li>
         </ol>
 
         <?php
@@ -793,10 +793,10 @@ include('header.php');
             <div class="card-header">
                 <div class="row">
                     <div class="col col-md-6">
-                        <i class="fas fa-table me-1"></i> Order Management
+                        <i class="fas fa-table me-1"></i> Gestion des ventes
                     </div>
                     <div class="col col-md-6" align="right">
-                        <a href="order.php?action=add&code=<?php echo $object->convert_data('add'); ?>" class="btn btn-success btn-sm">Add</a>
+                        <a href="order.php?action=add&code=<?php echo $object->convert_data('add'); ?>" class="btn btn-success btn-sm">Ajouter une vente</a>
                     </div>
                 </div>
             </div>

@@ -43,14 +43,7 @@ if(isset($_POST["add_medicine"]))
     }
     else
     {
-        if (!preg_match("/^[a-zA-Z-0-9' ]*$/", $_POST["medicine_name"]))
-        {
-            $error .= '<li>Only letters, Numbers and white space allowed</li>';
-        }
-        else
-        {
-            $formdata['medicine_name'] = trim($_POST["medicine_name"]);
-        }
+        $formdata['medicine_name'] = trim($_POST["medicine_name"]);
     }
 
     if(empty($_POST["medicine_pack_qty"]))
@@ -156,14 +149,7 @@ if(isset($_POST["edit_medicine"]))
     }
     else
     {
-        if (!preg_match("/^[a-zA-Z-0-9' ]*$/", $_POST["medicine_name"]))
-        {
-            $error .= '<li>Only letters, Numbers and white space allowed</li>';
-        }
-        else
-        {
-            $formdata['medicine_name'] = trim($_POST["medicine_name"]);
-        }
+        $formdata['medicine_name'] = trim($_POST["medicine_name"]);
     }
 
     if(empty($_POST["medicine_pack_qty"]))
@@ -597,7 +583,7 @@ include('header.php');
                                             <tr>
                                                 <td>'.$row["medicine_name"].'</td>
                                                 <td>'.$row["company_name"].'</td>
-                                                <td>'.$row["medicine_pack_qty"].' '.$row["category_name"].'</td>
+                                                <td>'.$row["medicine_pack_qty"].'</td>
                                                 <td>'.$row["medicine_available_quantity"].'</td>
                                                 <td>'.$row["location_rack_name"].'</td>
                                                 <td>'.$medicine_status.'</td>

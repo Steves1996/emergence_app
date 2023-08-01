@@ -78,18 +78,6 @@ if (isset($_POST["add_medicine_purchase"])) {
         $formdata['medicine_purchase_total_cost'] = trim($_POST["medicine_purchase_total_cost"]);
     }*/
 
-    if (empty($_POST["medicine_manufacture_month"])) {
-        $error .= '<li>Manufacturing Month is required</li>';
-    } else {
-        $formdata['medicine_manufacture_month'] = trim($_POST["medicine_manufacture_month"]);
-    }
-
-    if (empty($_POST["medicine_manufacture_year"])) {
-        $error .= '<li>Manufacturing Year is required</li>';
-    } else {
-        $formdata['medicine_manufacture_year'] = trim($_POST["medicine_manufacture_year"]);
-    }
-
     if (empty($_POST["medicine_expired_month"])) {
         $error .= '<li>Expired Month is required</li>';
     } else {
@@ -198,17 +186,6 @@ if (isset($_POST["edit_medicine_purchase"])) {
         $formdata['medicine_purchase_total_cost'] = trim($_POST["medicine_purchase_total_cost"]);
     }*/
 
-    if (empty($_POST["medicine_manufacture_month"])) {
-        $error .= '<li>Manufacturing Month is required</li>';
-    } else {
-        $formdata['medicine_manufacture_month'] = trim($_POST["medicine_manufacture_month"]);
-    }
-
-    if (empty($_POST["medicine_manufacture_year"])) {
-        $error .= '<li>Manufacturing Year is required</li>';
-    } else {
-        $formdata['medicine_manufacture_year'] = trim($_POST["medicine_manufacture_year"]);
-    }
 
     if (empty($_POST["medicine_expired_month"])) {
         $error .= '<li>Expired Month is required</li>';
@@ -452,61 +429,6 @@ include('header.php');
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-floating mb-3">
-                                            <select name="medicine_manufacture_month" class="form-control" id="medicine_manufacture_month">
-                                                <option value="">Select</option>
-                                                <option value="01">January</option>
-                                                <option value="02">February</option>
-                                                <option value="03">March</option>
-                                                <option value="04">April</option>
-                                                <option value="05">May</option>
-                                                <option value="06">June</option>
-                                                <option value="07">July</option>
-                                                <option value="08">August</option>
-                                                <option value="09">September</option>
-                                                <option value="10">October</option>
-                                                <option value="11">November</option>
-                                                <option value="12">December</option>
-                                            </select>
-                                            <?php
-                                            if (isset($_POST["medicine_manufacture_month"])) {
-                                                echo '
-                                                                <script>
-                                                                document.getElementById("medicine_manufacture_month").value = "' . $_POST["medicine_manufacture_month"] . '"
-                                                                </script>
-                                                                ';
-                                            }
-                                            ?>
-                                            <label for="medicine_manufacture_month">Mois de fabrication</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating mb-3">
-                                            <select name="medicine_manufacture_year" class="form-control" id="medicine_manufacture_year">
-                                                <option value="">Select</option>
-                                                <?php
-                                                for ($i = date("Y"); $i < date("Y") + 10; $i++) {
-                                                    echo '<option value="' . $i . '">' . $i . '</option>';
-                                                }
-                                                ?>
-                                            </select>
-                                            <?php
-                                            if (isset($_POST["medicine_manufacture_year"])) {
-                                                echo '
-                                                                <script>
-                                                                document.getElementById("medicine_manufacture_year").value = "' . $_POST["medicine_manufacture_year"] . '"
-                                                                </script>
-                                                                ';
-                                            }
-                                            ?>
-                                            <label for="medicine_manufacture_year">Annee de fabrication</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-md-6">
@@ -796,7 +718,7 @@ include('header.php');
             <div class="card-header">
                 <div class="row">
                     <div class="col col-md-6">
-                        <i class="fas fa-table me-1"></i> Gestion des medicaments acheté
+                        <i class="fas fa-table me-1"></i> Gestion des medicaments achetés
                     </div>
                     <div class="col col-md-6" align="right">
                         <a href="medicine_purchase.php?action=add&code=<?php echo $object->convert_data('add'); ?>" class="btn btn-success btn-sm">Add</a>
@@ -814,10 +736,8 @@ include('header.php');
                             <th>Quantite disponible</th>
                             <th>Prix unitaire</th>
                             <th>Prix total d'achat</th>
-                            <th>Date de fabrication</th>
-                            <th>Date de fabrication</th>
+                            <th>Date de expiration</th>
                             <th>Prix de vente</th>
-                            <th>Date d'achat</th>
                             <th>Status</th>
                             <!--<th>Added On</th>
                                                 <th>Updated On</th>!-->
@@ -833,10 +753,8 @@ include('header.php');
                             <th>Quantite disponible</th>
                             <th>Prix unitaire</th>
                             <th>Prix total d'achat</th>
-                            <th>Date de fabrication</th>
-                            <th>Date de fabrication</th>
+                            <th>Date de expiration</th>
                             <th>Prix de vente</th>
-                            <th>Date d'achat</th>
                             <th>Status</th>
                             <!--<th>Added On</th>
                                                 <th>Updated On</th>!-->
@@ -861,10 +779,8 @@ include('header.php');
                                                 <td>' . $row["available_quantity"] . '</td>
                                                 <td>' . $object->cur_sym . $row["medicine_purchase_price_per_unit"] . '</td>
                                                 <td>' . $object->cur_sym . $row["medicine_purchase_total_cost"] . '</td>
-                                                <td>' . $row["medicine_manufacture_month"] . '/' . $row["medicine_manufacture_year"] . '</td>
                                                 <td>' . $row["medicine_expired_month"] . '/' . $row["medicine_expired_year"] . '</td>
                                                 <td>' . $object->cur_sym . $row["medicine_sale_price_per_unit"] . '</td>
-                                                <td>' . $row["medicine_purchase_datetime"] . '</td>
                                                 <td>' . $medicine_purchase_status . '</td>
                                                 <td>
                                                     <a href="medicine_purchase.php?action=edit&code=' . $object->convert_data($row["medicine_purchase_id"]) . '" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>

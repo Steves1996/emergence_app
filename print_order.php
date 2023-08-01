@@ -118,7 +118,7 @@ if(isset($_GET["action"], $_GET["code"]) && $_GET["action"] == 'pdf' && $_GET['c
 						<td>'.$m_data["company_short_name"].'</td>
 						<td>'.$m_data["medicine_batch_no"].'</td>
 						<td>'.$m_data["expiry_date"].'</td>
-						<td>'.$object->cur_sym . $m_data["medicine_sale_price_per_unit"].'</td>
+						<td>'.$order_item_row["medicine_price"].'</td>
 						<td>'.$order_item_row["medicine_quantity"].'</td>
 						<td>'.$object->cur_sym . number_format(floatval($order_item_row["medicine_price"] * $order_item_row["medicine_quantity"]), 2, '.', ',').'</td>
 					</tr>
@@ -161,7 +161,7 @@ if(isset($_GET["action"], $_GET["code"]) && $_GET["action"] == 'pdf' && $_GET['c
 
 	$pdf = new Pdf();
 
-	$pdf->set_paper('letter', 'landscape');
+	$pdf->set_paper('letter', 'portrait');
 
 	$file_name = ''.$patient_name .'-' .rand() .'.pdf';
 

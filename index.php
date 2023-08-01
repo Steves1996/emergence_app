@@ -41,7 +41,7 @@ $medicine_result = $object->get_result();
 			<div class="card bg-primary text-white mb-4">
 				<div class="card-body">
 					<h2 class="text-center"><?php echo $object->Get_total_no_of_medicine(); ?></h2>
-					<h5 class="text-center">In Stock Medicine</h5>
+					<h5 class="text-center">Medicaments en stock</h5>
 				</div>
 			</div>
 		</div>
@@ -49,7 +49,7 @@ $medicine_result = $object->get_result();
 			<div class="card bg-warning text-white mb-4">
 				<div class="card-body">
 					<h2 class="text-center"><?php echo $object->Count_outstock_medicine(); ?></h2>
-					<h5 class="text-center">Out of Stock Medicine</h5>
+					<h5 class="text-center">Alerte stock</h5>
 				</div>
 			</div>
 		</div>
@@ -57,7 +57,7 @@ $medicine_result = $object->get_result();
 			<div class="card bg-danger text-white mb-4">
 				<div class="card-body">
 					<h2 class="text-center"><?php echo $object->cur_sym . number_format(floatval($object->Get_total_medicine_purchase()), 2, '.', ','); ?></h2>
-					<h5 class="text-center">Total Purchase</h5>
+					<h5 class="text-center">Total Achat</h5>
 				</div>
 			</div>
 		</div>
@@ -65,7 +65,7 @@ $medicine_result = $object->get_result();
 			<div class="card bg-success text-white mb-4">
 				<div class="card-body">
 					<h2 class="text-center"><?php echo $object->cur_sym . number_format(floatval($object->Get_total_medicine_sale()), 2, '.', ','); ?></h2>
-					<h5 class="text-center">Total Sale</h5>
+					<h5 class="text-center">Total Vente</h5>
 				</div>
 			</div>
 		</div>
@@ -77,7 +77,7 @@ $medicine_result = $object->get_result();
 			<div class="card mb-4">
 				<div class="card-header">
 					<i class="fas fa-chart-area me-1"></i>
-					Sale Status
+					Status des ventes
 				</div>
 				<div class="card-body"><canvas id="saleChart" width="100%" height="40"></canvas></div>
 			</div>
@@ -86,7 +86,7 @@ $medicine_result = $object->get_result();
 			<div class="card mb-4">
 				<div class="card-header">
 					<i class="fas fa-chart-bar me-1"></i>
-					No. of Medicine
+					Numero medicament
 				</div>
 				<div class="card-body"><canvas id="stockChart" width="100%" height="40"></canvas></div>
 			</div>
@@ -96,7 +96,7 @@ $medicine_result = $object->get_result();
 	<div class="card mb-4">
 		<div class="card-header">
 			<i class="fas fa-table me-1"></i>
-			List of Out of Stock Medicine
+			List alerte stock
 		</div>
 		<div class="card-body">
 			<table id="datatablesSimple">
@@ -108,8 +108,6 @@ $medicine_result = $object->get_result();
 						<th>Available Quantity</th>
 						<th>Location Rack</th>
 						<th>Status</th>
-						<th>Added On</th>
-						<th>Updated On</th>
 						<th>Action</th>
 					</tr>
 				</thead>
@@ -121,8 +119,6 @@ $medicine_result = $object->get_result();
 						<th>Available Quantity</th>
 						<th>Location Rack</th>
 						<th>Status</th>
-						<th>Added On</th>
-						<th>Updated On</th>
 						<th>Action</th>
 					</tr>
 				</tfoot>
@@ -144,8 +140,6 @@ $medicine_result = $object->get_result();
 	                                                <td>' . $row["medicine_available_quantity"] . '</td>
 	                                                <td>' . $row["location_rack_name"] . '</td>
 	                                                <td>' . $medicine_status . '</td>
-	                                                <td>' . $row["medicine_add_datetime"] . '</td>
-	                                                <td>' . $row["medicine_update_datetime"] . '</td>
 	                                                <td>
 	                                                    <a href="medicine_purchase.php?action=add&code=' . $object->convert_data("add") . '&medicine=' . $object->convert_data($row["medicine_id"]) . '" class="btn btn-secondary btn-sm"><i class="fas fa-plus"></i> Purchase</a>
 	                                                </td>
