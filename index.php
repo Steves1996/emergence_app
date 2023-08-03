@@ -56,7 +56,7 @@ $medicine_result = $object->get_result();
 		<div class="col-xl-3 col-md-6">
 			<div class="card bg-danger text-white mb-4">
 				<div class="card-body">
-					<h2 class="text-center"><?php echo $object->cur_sym . number_format(floatval($object->Get_total_medicine_purchase()), 2, '.', ','); ?></h2>
+					<h2 class="text-center"><?php echo $object->cur_sym . number_format(floatval($object->Get_total_medicine_purchase()), 0, '.', ','); ?></h2>
 					<h5 class="text-center">Total Achat</h5>
 				</div>
 			</div>
@@ -64,7 +64,7 @@ $medicine_result = $object->get_result();
 		<div class="col-xl-3 col-md-6">
 			<div class="card bg-success text-white mb-4">
 				<div class="card-body">
-					<h2 class="text-center"><?php echo $object->cur_sym . number_format(floatval($object->Get_total_medicine_sale()), 2, '.', ','); ?></h2>
+					<h2 class="text-center"><?php echo $object->cur_sym . number_format(floatval($object->Get_total_medicine_sale()), 0, '.', ','); ?></h2>
 					<h5 class="text-center">Total Vente</h5>
 				</div>
 			</div>
@@ -103,10 +103,8 @@ $medicine_result = $object->get_result();
 				<thead>
 					<tr>
 						<th>Medicine Name</th>
-						<th>Company</th>
-						<th>Pack Detail</th>
-						<th>Available Quantity</th>
-						<th>Location Rack</th>
+						<th>Alert Stock</th>
+						<th>Quantite disponible</th>
 						<th>Status</th>
 						<th>Action</th>
 					</tr>
@@ -114,10 +112,8 @@ $medicine_result = $object->get_result();
 				<tfoot>
 					<tr>
 						<th>Medicine Name</th>
-						<th>Company</th>
-						<th>Pack Detail</th>
-						<th>Available Quantity</th>
-						<th>Location Rack</th>
+						<th>Alert Stock</th>
+						<th>Quantite disponible</th>
 						<th>Status</th>
 						<th>Action</th>
 					</tr>
@@ -135,10 +131,8 @@ $medicine_result = $object->get_result();
 						echo '
 	                                            <tr>
 	                                                <td>' . $row["medicine_name"] . '</td>
-	                                                <td>' . $row["company_name"] . '</td>
 	                                                <td>' . $row["medicine_pack_qty"] . ' ' . $row["category_name"] . '</td>
 	                                                <td>' . $row["medicine_available_quantity"] . '</td>
-	                                                <td>' . $row["location_rack_name"] . '</td>
 	                                                <td>' . $medicine_status . '</td>
 	                                                <td>
 	                                                    <a href="medicine_purchase.php?action=add&code=' . $object->convert_data("add") . '&medicine=' . $object->convert_data($row["medicine_id"]) . '" class="btn btn-secondary btn-sm"><i class="fas fa-plus"></i> Purchase</a>

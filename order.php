@@ -453,7 +453,7 @@ include('header.php');
 
                                                                     <td><input type="number" name="medicine_quantity[]" class="form-control medicine_quantity" placeholder="Quantity" value="' . $_POST["medicine_quantity"][$i] . '" min="1" onblur="check_qty(this); calculate_total();" /></td>
 
-                                                                    <td><input type="number" name="medicine_price[]" class="form-control item_unit_price" placeholder="Unit Price" value="' . $order_row['medicine_sale_price_per_unit'] . '" min="1" /></td>
+                                                                    <td><input type="number" name="medicine_price[]" class="form-control item_unit_price" placeholder="Unit Price" value="' . number_format($order_row['medicine_sale_price_per_unit'],0) . '" min="1" /></td>
 
                                                                     <td><span class="item_total_price">' . $order_row['medicine_sale_price_per_unit'] * $_POST["medicine_quantity"][$i] . '</span></td>
                                                                     <td><button type="button" name="remove_item" class="btn btn-danger btn-sm" onclick="deleteRow(this)"><i class="fas fa-minus"></i></button></td>
@@ -576,12 +576,12 @@ include('header.php');
                             console.log('Qty - ' + qty[i].value);
                             console.log('Unit Price - ' + unit_price[i].value);
                             var temp_total_price = parseFloat(qty[i].value) * parseFloat(unit_price[i].value);
-                            total_price[i].innerHTML = temp_total_price.toFixed(2);
+                            total_price[i].innerHTML = temp_total_price.toFixed(0);
                             total = parseFloat(total) + parseFloat(temp_total_price);
                         }
                     }
                     _('hidden_order_total_amount').value = total;
-                    _('order_total_amount').innerHTML = total.toFixed(2);
+                    _('order_total_amount').innerHTML = total.toFixed(0);
                 }
 
                 function check_qty(element) {
@@ -688,7 +688,7 @@ include('header.php');
 
                                                                 <td><input type="text" name="medicine_price[]" class="form-control item_unit_price" placeholder="Unit price" value="' . $order_item_row['medicine_price'] . '" min="1" onblur="calculate_total()"/></td>
 
-                                                                <td><span class="item_total_price">' . number_format($order_item_row['medicine_price'] * $order_item_row["medicine_quantity"], 2) . '</span></td>
+                                                                <td><span class="item_total_price">' . number_format($order_item_row['medicine_price'] * $order_item_row["medicine_quantity"], 0) . '</span></td>
                                                                 <td><button type="button" name="remove_item" class="btn btn-danger btn-sm" onclick="delete_data(`' . $object->convert_data($order_item_row["order_item_id"]) . '`, `' . $_GET["code"] . '`);"><i class="fas fa-minus"></i></button></td>
                                                             </tr>
                                                             ';
@@ -730,12 +730,12 @@ include('header.php');
                                     console.log('Qty - ' + qty[i].value);
                                     console.log('Unit Price - ' + unit_price[i].value);
                                     var temp_total_price = parseFloat(qty[i].value) * parseFloat(unit_price[i].value);
-                                    total_price[i].innerHTML = temp_total_price.toFixed(2);
+                                    total_price[i].innerHTML = temp_total_price.toFixed(0);
                                     total = parseFloat(total) + parseFloat(temp_total_price);
                                 }
                             }
                             _('hidden_order_total_amount').value = total;
-                            _('order_total_amount').innerHTML = total.toFixed(2);
+                            _('order_total_amount').innerHTML = total.toFixed(0);
                         }
 
                         function check_qty(element) {
@@ -842,7 +842,7 @@ include('header.php');
                                                 <td>' . $row["order_id"] . '</td>
                                                 <td>' . $row["patient_name"] . '</td>
                                                 <td>' . $row["doctor_name"] . '</td>
-                                                <td>' . $object->cur_sym . $row["order_total_amount"] . '</td>
+                                                <td>' . $object->cur_sym . number_format($row["order_total_amount"],0) . '</td>
                                                 <td>' . $row["user_name"] . '</td>
                                                 <td>' . $order_status . '</td>
                                                 <td>' . $row["order_added_on"] . '</td>

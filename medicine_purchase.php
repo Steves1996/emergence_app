@@ -44,13 +44,9 @@ if (isset($_POST["add_medicine_purchase"])) {
     }
 
     if (empty($_POST["medicine_batch_no"])) {
-        $error .= '<li>Medicine Batch No. is required</li>';
+        $formdata['medicine_batch_no'] = trim($_POST["medicine_batch_no"]);
     } else {
-        if (!preg_match("/^[a-zA-Z-0-9']*$/", $_POST["medicine_batch_no"])) {
-            $error .= '<li>Only letters and Numbers allowed</li>';
-        } else {
-            $formdata['medicine_batch_no'] = trim($_POST["medicine_batch_no"]);
-        }
+        $formdata['medicine_batch_no'] = trim($_POST["medicine_batch_no"]);
     }
 
     if (empty($_POST["medicine_purchase_qty"])) {
@@ -64,7 +60,7 @@ if (isset($_POST["add_medicine_purchase"])) {
     }
 
     if (empty($_POST["medicine_purchase_price_per_unit"])) {
-        $error .= '<li>Purchase Price per unit is required</li>';
+        $formdata['medicine_purchase_price_per_unit'] = trim($_POST["medicine_purchase_price_per_unit"]);
     } else {
         $formdata['medicine_purchase_price_per_unit'] = trim($_POST["medicine_purchase_price_per_unit"]);
     }
@@ -91,7 +87,7 @@ if (isset($_POST["add_medicine_purchase"])) {
     }
 
     if (empty($_POST["medicine_sale_price_per_unit"])) {
-        $error .= '<li>Sale Price per unit is required</li>';
+        $formdata['medicine_sale_price_per_unit'] = trim($_POST["medicine_sale_price_per_unit"]);
     } else {
         $formdata['medicine_sale_price_per_unit'] = trim($_POST["medicine_sale_price_per_unit"]);
     }
@@ -152,13 +148,9 @@ if (isset($_POST["edit_medicine_purchase"])) {
     }
 
     if (empty($_POST["medicine_batch_no"])) {
-        $error .= '<li>Medicine Batch No. is required</li>';
+        $formdata['medicine_batch_no'] = trim($_POST["medicine_batch_no"]);
     } else {
-        if (!preg_match("/^[a-zA-Z-0-9']*$/", $_POST["medicine_batch_no"])) {
-            $error .= '<li>Only letters and Numbers allowed</li>';
-        } else {
-            $formdata['medicine_batch_no'] = trim($_POST["medicine_batch_no"]);
-        }
+        $formdata['medicine_batch_no'] = trim($_POST["medicine_batch_no"]);
     }
 
     if (empty($_POST["medicine_purchase_qty"])) {
@@ -732,10 +724,7 @@ include('header.php');
                             <th>Nom du medicament</th>
                             <th>Code</th>
                             <th>Fournisseur</th>
-                            <th>Quantite</th>
                             <th>Quantite disponible</th>
-                            <th>Prix unitaire</th>
-                            <th>Prix total d'achat</th>
                             <th>Date de expiration</th>
                             <th>Prix de vente</th>
                             <th>Status</th>
@@ -749,10 +738,7 @@ include('header.php');
                             <th>Nom du medicament</th>
                             <th>Code</th>
                             <th>Fournisseur</th>
-                            <th>Quantite</th>
                             <th>Quantite disponible</th>
-                            <th>Prix unitaire</th>
-                            <th>Prix total d'achat</th>
                             <th>Date de expiration</th>
                             <th>Prix de vente</th>
                             <th>Status</th>
@@ -775,12 +761,9 @@ include('header.php');
                                                 <td>' . $row["medicine_name"] . '</td>
                                                 <td>' . $row["medicine_batch_no"] . '</td>
                                                 <td>' . $row["supplier_name"] . '</td>
-                                                <td>' . $row["medicine_purchase_qty"] . '</td>
                                                 <td>' . $row["available_quantity"] . '</td>
-                                                <td>' . $object->cur_sym . $row["medicine_purchase_price_per_unit"] . '</td>
-                                                <td>' . $object->cur_sym . $row["medicine_purchase_total_cost"] . '</td>
                                                 <td>' . $row["medicine_expired_month"] . '/' . $row["medicine_expired_year"] . '</td>
-                                                <td>' . $object->cur_sym . $row["medicine_sale_price_per_unit"] . '</td>
+                                                <td>' . $object->cur_sym . number_format($row["medicine_sale_price_per_unit"],0) . '</td>
                                                 <td>' . $medicine_purchase_status . '</td>
                                                 <td>
                                                     <a href="medicine_purchase.php?action=edit&code=' . $object->convert_data($row["medicine_purchase_id"]) . '" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
