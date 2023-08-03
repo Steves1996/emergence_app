@@ -74,7 +74,7 @@ if (isset($_POST["add_medicine_purchase"])) {
         $formdata['medicine_purchase_total_cost'] = trim($_POST["medicine_purchase_total_cost"]);
     }*/
 
-    if (empty($_POST["medicine_expired_month"])) {
+    /*if (empty($_POST["medicine_expired_month"])) {
         $error .= '<li>Expired Month is required</li>';
     } else {
         $formdata['medicine_expired_month'] = trim($_POST["medicine_expired_month"]);
@@ -84,7 +84,13 @@ if (isset($_POST["add_medicine_purchase"])) {
         $error .= '<li>Expired Year is required</li>';
     } else {
         $formdata['medicine_expired_year'] = trim($_POST["medicine_expired_year"]);
+    }*/
+    if (empty($_POST["medecine_expired_date"])) {
+        $error .= '<li>Expired Date is required</li>';
+    } else {
+        $formdata['medecine_expired_date'] = trim($_POST["medecine_expired_date"]);
     }
+
 
     if (empty($_POST["medicine_sale_price_per_unit"])) {
         $formdata['medicine_sale_price_per_unit'] = trim($_POST["medicine_sale_price_per_unit"]);
@@ -104,8 +110,9 @@ if (isset($_POST["add_medicine_purchase"])) {
             ':medicine_purchase_total_cost'     =>  $total_cost,
             ':medicine_manufacture_month'       =>  $formdata['medicine_manufacture_month'],
             ':medicine_manufacture_year'        =>  $formdata['medicine_manufacture_year'],
-            ':medicine_expired_month'           =>  $formdata['medicine_expired_month'],
-            ':medicine_expired_year'            =>  $formdata['medicine_expired_year'],
+//            ':medicine_expired_month'           =>  $formdata['medicine_expired_month'],
+//            ':medicine_expired_year'            =>  $formdata['medicine_expired_year'],
+            ':medecine_expired_date'            =>  $formdata['medecine_expired_date'],
             ':medicine_sale_price_per_unit'     =>  $formdata['medicine_sale_price_per_unit'],
             ':medicine_purchase_enter_by'       =>  $_SESSION["user_id"],
             ':medicine_purchase_datetime'       =>  $object->now,
@@ -114,8 +121,8 @@ if (isset($_POST["add_medicine_purchase"])) {
 
         $object->query = "
         INSERT INTO medicine_purchase_msbs 
-        (medicine_id, supplier_id, medicine_batch_no, medicine_purchase_qty, available_quantity, medicine_purchase_price_per_unit, medicine_purchase_total_cost, medicine_manufacture_month, medicine_manufacture_year, medicine_expired_month, medicine_expired_year, medicine_sale_price_per_unit, medicine_purchase_enter_by, medicine_purchase_datetime, medicine_purchase_status) 
-        VALUES (:medicine_id, :supplier_id, :medicine_batch_no, :medicine_purchase_qty, :available_quantity, :medicine_purchase_price_per_unit, :medicine_purchase_total_cost, :medicine_manufacture_month, :medicine_manufacture_year, :medicine_expired_month, :medicine_expired_year, :medicine_sale_price_per_unit, :medicine_purchase_enter_by, :medicine_purchase_datetime, :medicine_purchase_status)
+        (medicine_id, supplier_id, medicine_batch_no, medicine_purchase_qty, available_quantity, medicine_purchase_price_per_unit, medicine_purchase_total_cost, medicine_manufacture_month, medicine_manufacture_year, medecine_expired_date, medicine_sale_price_per_unit, medicine_purchase_enter_by, medicine_purchase_datetime, medicine_purchase_status) 
+        VALUES (:medicine_id, :supplier_id, :medicine_batch_no, :medicine_purchase_qty, :available_quantity, :medicine_purchase_price_per_unit, :medicine_purchase_total_cost, :medicine_manufacture_month, :medicine_manufacture_year, :medecine_expired_date, :medicine_sale_price_per_unit, :medicine_purchase_enter_by, :medicine_purchase_datetime, :medicine_purchase_status)
             ";
 
         $object->execute($data);
@@ -179,7 +186,7 @@ if (isset($_POST["edit_medicine_purchase"])) {
     }*/
 
 
-    if (empty($_POST["medicine_expired_month"])) {
+    /*if (empty($_POST["medicine_expired_month"])) {
         $error .= '<li>Expired Month is required</li>';
     } else {
         $formdata['medicine_expired_month'] = trim($_POST["medicine_expired_month"]);
@@ -189,6 +196,12 @@ if (isset($_POST["edit_medicine_purchase"])) {
         $error .= '<li>Expired Year is required</li>';
     } else {
         $formdata['medicine_expired_year'] = trim($_POST["medicine_expired_year"]);
+    }*/
+
+    if (empty($_POST["medecine_expired_date"])) {
+        $error .= '<li>Expired Date is required</li>';
+    } else {
+        $formdata['medecine_expired_date'] = trim($_POST["medecine_expired_date"]);
     }
 
     if (empty($_POST["medicine_sale_price_per_unit"])) {
@@ -225,8 +238,9 @@ if (isset($_POST["edit_medicine_purchase"])) {
             ':medicine_purchase_total_cost'     =>  $total_cost,
             ':medicine_manufacture_month'       =>  $formdata['medicine_manufacture_month'],
             ':medicine_manufacture_year'        =>  $formdata['medicine_manufacture_year'],
-            ':medicine_expired_month'           =>  $formdata['medicine_expired_month'],
-            ':medicine_expired_year'            =>  $formdata['medicine_expired_year'],
+//            ':medicine_expired_month'           =>  $formdata['medicine_expired_month'],
+//            ':medicine_expired_year'            =>  $formdata['medicine_expired_year'],
+            ':medecine_expired_date'            =>  $formdata['medecine_expired_date'],
             ':medicine_sale_price_per_unit'     =>  $formdata['medicine_sale_price_per_unit'],
             ':medicine_purchase_id'             =>  $medicine_purchase_id
         );
@@ -242,8 +256,7 @@ if (isset($_POST["edit_medicine_purchase"])) {
             medicine_purchase_total_cost = :medicine_purchase_total_cost, 
             medicine_manufacture_month = :medicine_manufacture_month, 
             medicine_manufacture_year = :medicine_manufacture_year, 
-            medicine_expired_month = :medicine_expired_month, 
-            medicine_expired_year = :medicine_expired_year, 
+            medecine_expired_date = :medecine_expired_date, 
             medicine_sale_price_per_unit = :medicine_sale_price_per_unit  
             WHERE medicine_purchase_id = :medicine_purchase_id
             ";
@@ -356,7 +369,7 @@ include('header.php');
 
             <div class="card mb-4">
                 <div class="card-header">
-                    <i class="fas fa-user-plus"></i> Ajouter un achat
+                    <i class="fas fa-user-plus">Ajouter un achat</i>
                 </div>
                 <div class="card-body">
                     <form method="post">
@@ -425,7 +438,10 @@ include('header.php');
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
-                                            <select name="medicine_expired_month" class="form-control" id="medicine_expired_month">
+                                        <input class="form-control" id="medecine_expired_date" type="date" name="medecine_expired_date" value="date('Y-m-d')" />
+                                        <label for="medicine_expired_year">Date d'expiration</label>
+
+                                            <!--<select name="medicine_expired_month" class="form-control" id="medicine_expired_month">
                                                 <option value="">Select</option>
                                                 <option value="01">January</option>
                                                 <option value="02">February</option>
@@ -439,30 +455,30 @@ include('header.php');
                                                 <option value="10">October</option>
                                                 <option value="11">November</option>
                                                 <option value="12">December</option>
-                                            </select>
+                                            </select>-->
                                             <?php
-                                            if (isset($_POST["medicine_expired_month"])) {
+                                            if (isset($_POST["medecine_expired_date"])) {
                                                 echo '
                                                                 <script>
-                                                                document.getElementById("medicine_expired_month").value = "' . $_POST["medicine_expired_month"] . '"
+                                                                document.getElementById("medecine_expired_date").value = "' . $_POST["medecine_expired_date"] . '"
                                                                 </script>
                                                                 ';
                                             }
                                             ?>
-                                            <label for="medicine_expired_month">Mois d'expiration</label>
+                                            <!--<label for="medicine_expired_month">Mois d'expiration</label>-->
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <!--<div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <select name="medicine_expired_year" class="form-control" id="medicine_expired_year">
                                                 <option value="">Select</option>
-                                                <?php
+                                                <?php/*
                                                 for ($i = date("Y"); $i < date("Y") + 10; $i++) {
                                                     echo '<option value="' . $i . '">' . $i . '</option>';
                                                 }
-                                                ?>
+                                                */?>
                                             </select>
-                                            <?php
+                                            <?php/*
                                             if (isset($_POST["medicine_expired_year"])) {
                                                 echo '
                                                                 <script>
@@ -470,10 +486,10 @@ include('header.php');
                                                                 </script>
                                                                 ';
                                             }
-                                            ?>
+                                            */?>
                                             <label for="medicine_expired_year">Annee d'expiration</label>
                                         </div>
-                                    </div>
+                                    </div>-->
                                 </div>
                             </div>
                         </div>
@@ -604,7 +620,9 @@ include('header.php');
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3">
-                                                    <select name="medicine_expired_month" class="form-control" id="medicine_expired_month">
+                                                    <input class="form-control" id="medecine_expired_date" type="date" name="medecine_expired_date" value="date('Y-m-d')" />
+                                                    <label for="medicine_expired_year">Date d'expiration</label>
+                                                    <!--<select name="medicine_expired_month" class="form-control" id="medicine_expired_month">
                                                         <option value="">Select</option>
                                                         <option value="01">January</option>
                                                         <option value="02">February</option>
@@ -619,22 +637,22 @@ include('header.php');
                                                         <option value="11">November</option>
                                                         <option value="12">December</option>
                                                     </select>
-                                                    <label for="medicine_expired_month">Mois d'expiration</label>
+                                                    <label for="medicine_expired_month">Mois d'expiration</label>-->
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <!--<div class="col-md-6">
                                                 <div class="form-floating mb-3">
                                                     <select name="medicine_expired_year" class="form-control" id="medicine_expired_year">
                                                         <option value="">Select</option>
-                                                        <?php
+                                                        <?php/*
                                                         for ($i = date("Y"); $i < date("Y") + 10; $i++) {
                                                             echo '<option value="' . $i . '">' . $i . '</option>';
                                                         }
-                                                        ?>
+                                                        */?>
                                                     </select>
                                                     <label for="medicine_expired_year">Annee d'expiration</label>
                                                 </div>
-                                            </div>
+                                            </div>-->
                                         </div>
                                     </div>
                                 </div>
@@ -662,11 +680,11 @@ include('header.php');
                     <script>
                         document.getElementById('medicine_id').value = "<?php echo $medicine_purchase_row["medicine_id"]; ?>";
                         document.getElementById('supplier_id').value = "<?php echo $medicine_purchase_row["supplier_id"]; ?>";
-                        document.getElementById('medicine_manufacture_month').value = "<?php echo $medicine_purchase_row["medicine_manufacture_month"]; ?>";
+                        /*document.getElementById('medicine_manufacture_month').value = "<?php/* echo $medicine_purchase_row["medicine_manufacture_month"]; */?>";*/
                         document.getElementById('medicine_manufacture_year').value = "<?php echo $medicine_purchase_row["medicine_manufacture_year"]; ?>";
                         document.getElementById('medicine_manufacture_month').value = "<?php echo $medicine_purchase_row["medicine_manufacture_month"]; ?>";
-                        document.getElementById('medicine_expired_month').value = "<?php echo $medicine_purchase_row["medicine_expired_month"]; ?>";
-                        document.getElementById('medicine_expired_year').value = "<?php echo $medicine_purchase_row["medicine_expired_year"]; ?>";
+                        document.getElementById('medecine_expired_date').value = "<?php echo $medicine_purchase_row["medecine_expired_date"]; ?>";
+                        /*document.getElementById('medicine_expired_year').value = "<?php/* echo $medicine_purchase_row["medicine_expired_year"]; */?>";*/
                     </script>
 
         <?php
@@ -762,7 +780,7 @@ include('header.php');
                                                 <td>' . $row["medicine_batch_no"] . '</td>
                                                 <td>' . $row["supplier_name"] . '</td>
                                                 <td>' . $row["available_quantity"] . '</td>
-                                                <td>' . $row["medicine_expired_month"] . '/' . $row["medicine_expired_year"] . '</td>
+                                                <td>' . $row["medecine_expired_date"] . '</td>
                                                 <td>' . $object->cur_sym . number_format($row["medicine_sale_price_per_unit"],0) . '</td>
                                                 <td>' . $medicine_purchase_status . '</td>
                                                 <td>
