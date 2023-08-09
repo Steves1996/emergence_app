@@ -519,13 +519,7 @@ include('header.php');
 
                         }).then(function(responseData) {
                             console.log(responseData);
-                            mySelect.empty();
-                            if (responseData.available_quantity == 0) {
-                                _('msg_area').innerHTML = '<div class="alert alert-danger">This Medicine Quantity Not Available</div>';
-                                setTimeout(function() {
-                                    _('msg_area').innerHTML = '';
-                                }, 5000);
-                            } else {
+                            mySelect.empty();   
                                 // mySelect.disableItems(med_id);
                                 var no = random_number(1, 99999);
                                 var html = '<tr id="' + no + '">';
@@ -545,7 +539,7 @@ include('header.php');
                                 data.insertRow().innerHTML = html;
 
                                 calculate_total();
-                            }
+                            
 
                         });
                     }
