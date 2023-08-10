@@ -52,6 +52,10 @@
                         <?php
                         if ($object->is_master_user()) {
                         ?>
+                            <a class="nav-link" href="index.php">
+                                <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
+                                Tableau de bord
+                            </a>
                             <a class="nav-link" href="user.php">
                                 <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                                 Gestion des utilisateurs
@@ -64,28 +68,29 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-search-location"></i></div>
                                 Rang sur comptoire
                             </a>
-                            <a class="nav-link" href="company.php">
+                            <!-- <a class="nav-link" href="company.php">
                                 <div class="sb-nav-link-icon"><i class="fas fa-building"></i></div>
                                 Fabriquant
                             </a>
                             <a class="nav-link" href="supplier.php">
                                 <div class="sb-nav-link-icon"><i class="far fa-building"></i></div>
                                 Fournisseur
-                            </a>
+                            </a> -->
                             <a class="nav-link" href="medicine.php">
                                 <div class="sb-nav-link-icon"><i class="fas fa-pills"></i></div>
                                 Medicament
                             </a>
+                            
+                        <a class="nav-link" href="medicine_purchase.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-clipboard"></i></div>
+                            Entrer en stock
+                        </a>
                         <?php
                         }
                         ?>
-                        <a class="nav-link" href="medicine_purchase.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-clipboard"></i></div>
-                            Medicament Acheté
-                        </a>
                         <a class="nav-link" href="order.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-cash-register"></i></div>
-                            Effectuer une vente
+                            Vente
                         </a>
                         <a class="nav-link" href="logout.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-sign-out-alt"></i></div>

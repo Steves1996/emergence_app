@@ -38,19 +38,15 @@ if (isset($_POST["add_medicine_purchase"])) {
     }
 
     if (empty($_POST["supplier_id"])) {
-        $error .= '<li>Supplier is required</li>';
+        $formdata['supplier_id'] = trim($_POST["supplier_id"]);
     } else {
         $formdata['supplier_id'] = trim($_POST["supplier_id"]);
     }
 
     if (empty($_POST["medicine_batch_no"])) {
-        $error .= '<li>Medicine Batch No. is required</li>';
+        $formdata['medicine_batch_no'] = trim($_POST["medicine_batch_no"]);
     } else {
-        if (!preg_match("/^[a-zA-Z-0-9']*$/", $_POST["medicine_batch_no"])) {
-            $error .= '<li>Only letters and Numbers allowed</li>';
-        } else {
-            $formdata['medicine_batch_no'] = trim($_POST["medicine_batch_no"]);
-        }
+        $formdata['medicine_batch_no'] = trim($_POST["medicine_batch_no"]);
     }
 
     if (empty($_POST["medicine_purchase_qty"])) {
@@ -64,7 +60,7 @@ if (isset($_POST["add_medicine_purchase"])) {
     }
 
     if (empty($_POST["medicine_purchase_price_per_unit"])) {
-        $error .= '<li>Purchase Price per unit is required</li>';
+        $formdata['medicine_purchase_price_per_unit'] = trim($_POST["medicine_purchase_price_per_unit"]);
     } else {
         $formdata['medicine_purchase_price_per_unit'] = trim($_POST["medicine_purchase_price_per_unit"]);
     }
@@ -91,7 +87,7 @@ if (isset($_POST["add_medicine_purchase"])) {
     }
 
     if (empty($_POST["medicine_sale_price_per_unit"])) {
-        $error .= '<li>Sale Price per unit is required</li>';
+        $formdata['medicine_sale_price_per_unit'] = trim($_POST["medicine_sale_price_per_unit"]);
     } else {
         $formdata['medicine_sale_price_per_unit'] = trim($_POST["medicine_sale_price_per_unit"]);
     }
@@ -100,14 +96,14 @@ if (isset($_POST["add_medicine_purchase"])) {
         $total_cost = floatval($formdata['medicine_purchase_qty']) * floatval($formdata['medicine_purchase_price_per_unit']);
         $data = array(
             ':medicine_id'                      =>  $formdata['medicine_id'],
-            ':supplier_id'                      =>  $formdata['supplier_id'],
+            ':supplier_id'                      =>  '1',
             ':medicine_batch_no'                =>  $formdata['medicine_batch_no'],
             ':medicine_purchase_qty'            =>  $formdata['medicine_purchase_qty'],
             ':available_quantity'               =>  $formdata['medicine_purchase_qty'],
             ':medicine_purchase_price_per_unit' =>  $formdata['medicine_purchase_price_per_unit'],
             ':medicine_purchase_total_cost'     =>  $total_cost,
-            ':medicine_manufacture_month'       =>  $formdata['medicine_manufacture_month'],
-            ':medicine_manufacture_year'        =>  $formdata['medicine_manufacture_year'],
+            ':medicine_manufacture_month'       =>  '1',
+            ':medicine_manufacture_year'        =>  '2023',
             ':medicine_expired_month'           =>  $formdata['medicine_expired_month'],
             ':medicine_expired_year'            =>  $formdata['medicine_expired_year'],
             ':medicine_sale_price_per_unit'     =>  $formdata['medicine_sale_price_per_unit'],
@@ -146,19 +142,15 @@ if (isset($_POST["edit_medicine_purchase"])) {
     }
 
     if (empty($_POST["supplier_id"])) {
-        $error .= '<li>Supplier is required</li>';
+        $formdata['supplier_id'] = trim($_POST["supplier_id"]);
     } else {
         $formdata['supplier_id'] = trim($_POST["supplier_id"]);
     }
 
     if (empty($_POST["medicine_batch_no"])) {
-        $error .= '<li>Medicine Batch No. is required</li>';
+        $formdata['medicine_batch_no'] = trim($_POST["medicine_batch_no"]);
     } else {
-        if (!preg_match("/^[a-zA-Z-0-9']*$/", $_POST["medicine_batch_no"])) {
-            $error .= '<li>Only letters and Numbers allowed</li>';
-        } else {
-            $formdata['medicine_batch_no'] = trim($_POST["medicine_batch_no"]);
-        }
+        $formdata['medicine_batch_no'] = trim($_POST["medicine_batch_no"]);
     }
 
     if (empty($_POST["medicine_purchase_qty"])) {
@@ -371,7 +363,7 @@ include('header.php');
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-floating mb-3">
-                                    <select name="medicine_id" class="form-control" id="medicine_id">
+                                    <select name="medicine_id" class="form-control" id="medicine_id" onchange="getDetailOfProduct()">
                                         <?php echo $object->fill_medicine(); ?>
                                     </select>
                                     <?php
@@ -381,10 +373,12 @@ include('header.php');
                                                         document.getElementById("medicine_id").value = "' . $_POST["medicine_id"] . '"
                                                         </script>
                                                         ';
+                                                        
                                     }
 
                                     if (isset($_GET["medicine"])) {
                                         $medicine_id = $object->convert_data(trim($_GET["medicine"]), 'decrypt');
+                                        
                                         echo '
                                                         <script>
                                                         document.getElementById("medicine_id").value = "' . $medicine_id . '"
@@ -396,18 +390,20 @@ include('header.php');
                                     <label for="medicine_id">Nom du medicament</label>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="visibility: hidden;">
                                 <div class="form-floating mb-3">
                                     <select name="supplier_id" class="form-control" id="supplier_id">
                                         <?php echo $object->fill_supplier(); ?>
                                     </select>
                                     <?php
                                     if (isset($_POST["supplier_id"])) {
+
                                         echo '
                                                         <script>
-                                                        document.getElementById("supplier_id").value = "' . $_POST["supplier_id"] . '"
+                                                        document.getElementById("supplier_id").value = "1"
                                                         </script>
                                                         ';
+                                                        
                                     }
                                     ?>
                                     <label for="supplier_id">Nom du fournisseur</label>
@@ -500,11 +496,44 @@ include('header.php');
                             </div>
                         </div>
                         <div class="mt-4 mb-0">
-                            <input type="submit" name="add_medicine_purchase" class="btn btn-success" value="Add" />
+                            <input type="submit" name="add_medicine_purchase" class="btn btn-success" value="Enregistrer" />
                         </div>
                     </form>
                 </div>
             </div>
+            
+            <script>
+            function getDetailOfProduct(){
+                var data = document.getElementById('medicine_id').value;
+                var form_data = new FormData();
+                        form_data.append('med_id', data);
+                        form_data.append('action', 'fetch_medicine_data');
+                        fetch('product.php', {
+
+                            method: "POST",
+
+                            body: form_data
+
+                        }).then(function(response) {
+
+                            return response.json();
+
+                        }).then(function(responseData) {
+                            var purchasePrice = document.getElementById("medicine_purchase_price_per_unit");
+                            var salePrice = document.getElementById("medicine_sale_price_per_unit");
+                            var codeBarre = document.getElementById("medicine_batch_no");
+                            var monthExpiration = document.getElementById("medicine_expired_month");
+                            var yearExpiration = document.getElementById("medicine_expired_year");
+                            purchasePrice.value = responseData.medicine_purchase_price_per_unit;
+                            salePrice.value = responseData.medicine_sale_price_per_unit;
+                            codeBarre.value = responseData.medicine_batch_no;
+                            monthExpiration.value = responseData.medicine_expired_month;
+                            yearExpiration.value = responseData.medicine_expired_year;
+
+                        });
+
+            }
+        </script>
             <?php
         } else if ($_GET["action"] == 'edit') {
             $medicine_purchase_id = $object->convert_data(trim($_GET["code"]), 'decrypt');
@@ -721,7 +750,7 @@ include('header.php');
                         <i class="fas fa-table me-1"></i> Gestion des medicaments achetés
                     </div>
                     <div class="col col-md-6" align="right">
-                        <a href="medicine_purchase.php?action=add&code=<?php echo $object->convert_data('add'); ?>" class="btn btn-success btn-sm">Add</a>
+                        <a href="medicine_purchase.php?action=add&code=<?php echo $object->convert_data('add'); ?>" class="btn btn-success btn-sm">Ajouter un entre stock</a>
                     </div>
                 </div>
             </div>
@@ -732,10 +761,7 @@ include('header.php');
                             <th>Nom du medicament</th>
                             <th>Code</th>
                             <th>Fournisseur</th>
-                            <th>Quantite</th>
                             <th>Quantite disponible</th>
-                            <th>Prix unitaire</th>
-                            <th>Prix total d'achat</th>
                             <th>Date de expiration</th>
                             <th>Prix de vente</th>
                             <th>Status</th>
@@ -749,10 +775,7 @@ include('header.php');
                             <th>Nom du medicament</th>
                             <th>Code</th>
                             <th>Fournisseur</th>
-                            <th>Quantite</th>
                             <th>Quantite disponible</th>
-                            <th>Prix unitaire</th>
-                            <th>Prix total d'achat</th>
                             <th>Date de expiration</th>
                             <th>Prix de vente</th>
                             <th>Status</th>
@@ -775,12 +798,9 @@ include('header.php');
                                                 <td>' . $row["medicine_name"] . '</td>
                                                 <td>' . $row["medicine_batch_no"] . '</td>
                                                 <td>' . $row["supplier_name"] . '</td>
-                                                <td>' . $row["medicine_purchase_qty"] . '</td>
                                                 <td>' . $row["available_quantity"] . '</td>
-                                                <td>' . $object->cur_sym . $row["medicine_purchase_price_per_unit"] . '</td>
-                                                <td>' . $object->cur_sym . $row["medicine_purchase_total_cost"] . '</td>
                                                 <td>' . $row["medicine_expired_month"] . '/' . $row["medicine_expired_year"] . '</td>
-                                                <td>' . $object->cur_sym . $row["medicine_sale_price_per_unit"] . '</td>
+                                                <td>' . $object->cur_sym . number_format($row["medicine_sale_price_per_unit"],0) . '</td>
                                                 <td>' . $medicine_purchase_status . '</td>
                                                 <td>
                                                     <a href="medicine_purchase.php?action=edit&code=' . $object->convert_data($row["medicine_purchase_id"]) . '" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
