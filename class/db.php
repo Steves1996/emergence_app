@@ -265,7 +265,6 @@ class db
 		ON medicine_msbs.medicine_id =  medicine_purchase_msbs.medicine_id 
 		WHERE medicine_purchase_msbs.medicine_purchase_status = 'Enable' 
 		AND medicine_msbs.medicine_status = 'Enable' 
-		AND medicine_purchase_msbs.available_quantity > 0 
 		ORDER BY medicine_purchase_id ASC
 		";
 
