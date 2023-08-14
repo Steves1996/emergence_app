@@ -28,7 +28,6 @@ $object->query = "
 ";
 
 $medicine_result = $object->get_result();
-
 ?>
 
 <div class="container-fluid px-4">
@@ -141,6 +140,89 @@ $medicine_result = $object->get_result();
 	                                            ';
 					}
 
+					?>
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+
+	<div class="card mb-4">
+		<div class="card-header">
+			<i class="fas fa-table me-1"></i>
+			List alert Expiration date
+		</div>
+		<div class="card-body">
+			<table id="datatablesSimple">
+				<thead>
+					<tr>
+						<th>Nom du medicament</th>
+						<th>Fournisseur</th>
+						<th>Quantite disponible</th>
+						<th>Date de expiration</th>
+						<th>Status d'Expiration</th>
+					</tr>
+				</thead>
+				<tfoot>
+					<tr>
+						<th>Nom du medicament</th>
+						<th>Fournisseur</th>
+						<th>Quantite disponible</th>
+						<th>Date de expiration</th>
+						<th>Status d'Expiration</th>
+					</tr>
+				</tfoot>
+				<tbody>
+					<?php
+
+					$object->query = "
+						SELECT * FROM medicine_purchase_msbs 
+						INNER JOIN medicine_msbs 
+						ON medicine_msbs.medicine_id = medicine_purchase_msbs.medicine_id 
+						INNER JOIN  supplier_msbs 
+						ON  supplier_msbs.supplier_id = medicine_purchase_msbs.supplier_id 
+						WHERE `medicine_expired_status`='warning'
+						ORDER BY medicine_purchase_msbs.medicine_purchase_id DESC
+						";
+
+					$medicine_msbs_result = $object->get_result();
+
+					foreach ($medicine_msbs_result as $row) {
+						$medicine_expired_status = '';
+
+						$date1 = date_create(date('Y-m-d'));
+						$date2 =  date_create($row["medicine_expired_date"]);
+
+						$diff = date_diff($date1, $date2);
+						$date_diff = $diff->format("%a");
+
+						$days = 15;
+
+						if ($date_diff <= $days) {
+
+							$data = array(':medicine_expired_date' => $row["medicine_expired_date"]);
+							$object->query = "
+                                UPDATE `medicine_purchase_msbs` SET`medicine_expired_status`='warning' WHERE `medicine_expired_date` = :medicine_expired_date";
+
+							$object->execute($data);
+
+							$medicine_expired_status = '<div class="badge bg-warning">Warning</div>';
+						} else {
+							$medicine_expired_status = '<div class="badge bg-success">Active</div>';
+						}
+
+
+
+						echo '
+                                <tr>
+                                    <td>' . $row["medicine_name"] . '</td>
+                                    <td>' . $row["supplier_name"] . '</td>
+                                    <td>' . $row["available_quantity"] . '</td>
+                                    <td>' . $row["medicine_expired_date"] . '</td>
+                                    <td>' . $medicine_expired_status . '</td>
+                                </tr>
+                                ';
+					}
 					?>
 				</tbody>
 			</table>

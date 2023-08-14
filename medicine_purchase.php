@@ -85,11 +85,27 @@ if (isset($_POST["add_medicine_purchase"])) {
     } else {
         $formdata['medicine_expired_year'] = trim($_POST["medicine_expired_year"]);
     }*/
-    if (empty($_POST["medecine_expired_date"])) {
+    if (empty($_POST["medicine_expired_date"])) {
         $error .= '<li>Expired Date is required</li>';
     } else {
-        $formdata['medecine_expired_date'] = trim($_POST["medecine_expired_date"]);
+        $date1 = date_create(date('Y-m-d'));
+        $date2 = date_create(trim($_POST["medicine_expired_date"]));
+
+        $diff = date_diff($date1, $date2);
+        $date_diff = $diff->format("%a");
+
+        $days = 15;
+
+        if ($date_diff <= $days) {
+            $formdata['medicine_expired_date'] = trim($_POST["medicine_expired_date"]);
+            $medicine_expired_status = 'warning';
+        } else {
+            $formdata['medicine_expired_date'] = trim($_POST["medicine_expired_date"]);
+            $medicine_expired_status = 'active';
+        }
     }
+
+
 
 
     if (empty($_POST["medicine_sale_price_per_unit"])) {
@@ -110,9 +126,10 @@ if (isset($_POST["add_medicine_purchase"])) {
             ':medicine_purchase_total_cost'     =>  $total_cost,
             ':medicine_manufacture_month'       =>  $formdata['medicine_manufacture_month'],
             ':medicine_manufacture_year'        =>  $formdata['medicine_manufacture_year'],
-//            ':medicine_expired_month'           =>  $formdata['medicine_expired_month'],
-//            ':medicine_expired_year'            =>  $formdata['medicine_expired_year'],
-            ':medecine_expired_date'            =>  $formdata['medecine_expired_date'],
+            //            ':medicine_expired_month'           =>  $formdata['medicine_expired_month'],
+            //            ':medicine_expired_year'            =>  $formdata['medicine_expired_year'],
+            ':medicine_expired_date'            =>  $formdata['medicine_expired_date'],
+            ':medicine_expired_status'          => $medicine_expired_status,
             ':medicine_sale_price_per_unit'     =>  $formdata['medicine_sale_price_per_unit'],
             ':medicine_purchase_enter_by'       =>  $_SESSION["user_id"],
             ':medicine_purchase_datetime'       =>  $object->now,
@@ -121,8 +138,8 @@ if (isset($_POST["add_medicine_purchase"])) {
 
         $object->query = "
         INSERT INTO medicine_purchase_msbs 
-        (medicine_id, supplier_id, medicine_batch_no, medicine_purchase_qty, available_quantity, medicine_purchase_price_per_unit, medicine_purchase_total_cost, medicine_manufacture_month, medicine_manufacture_year, medecine_expired_date, medicine_sale_price_per_unit, medicine_purchase_enter_by, medicine_purchase_datetime, medicine_purchase_status) 
-        VALUES (:medicine_id, :supplier_id, :medicine_batch_no, :medicine_purchase_qty, :available_quantity, :medicine_purchase_price_per_unit, :medicine_purchase_total_cost, :medicine_manufacture_month, :medicine_manufacture_year, :medecine_expired_date, :medicine_sale_price_per_unit, :medicine_purchase_enter_by, :medicine_purchase_datetime, :medicine_purchase_status)
+        (medicine_id, supplier_id, medicine_batch_no, medicine_purchase_qty, available_quantity, medicine_purchase_price_per_unit, medicine_purchase_total_cost, medicine_manufacture_month, medicine_manufacture_year, medicine_expired_date, medicine_expired_status, medicine_sale_price_per_unit, medicine_purchase_enter_by, medicine_purchase_datetime, medicine_purchase_status) 
+        VALUES (:medicine_id, :supplier_id, :medicine_batch_no, :medicine_purchase_qty, :available_quantity, :medicine_purchase_price_per_unit, :medicine_purchase_total_cost, :medicine_manufacture_month, :medicine_manufacture_year, :medicine_expired_date, :medicine_expired_status, :medicine_sale_price_per_unit, :medicine_purchase_enter_by, :medicine_purchase_datetime, :medicine_purchase_status)
             ";
 
         $object->execute($data);
@@ -198,10 +215,24 @@ if (isset($_POST["edit_medicine_purchase"])) {
         $formdata['medicine_expired_year'] = trim($_POST["medicine_expired_year"]);
     }*/
 
-    if (empty($_POST["medecine_expired_date"])) {
+    if (empty($_POST["medicine_expired_date"])) {
         $error .= '<li>Expired Date is required</li>';
     } else {
-        $formdata['medecine_expired_date'] = trim($_POST["medecine_expired_date"]);
+        $date1 = date_create(date('Y-m-d'));
+        $date2 = date_create(trim($_POST["medicine_expired_date"]));
+
+        $diff = date_diff($date1, $date2);
+        $date_diff = $diff->format("%a");
+
+        $days = 15;
+
+        if ($date_diff <= $days) {
+            $formdata['medicine_expired_date'] = trim($_POST["medicine_expired_date"]);
+            $medicine_expired_status = 'warning';
+        } else {
+            $formdata['medicine_expired_date'] = trim($_POST["medicine_expired_date"]);
+            $medicine_expired_status = 'active';
+        }
     }
 
     if (empty($_POST["medicine_sale_price_per_unit"])) {
@@ -238,9 +269,10 @@ if (isset($_POST["edit_medicine_purchase"])) {
             ':medicine_purchase_total_cost'     =>  $total_cost,
             ':medicine_manufacture_month'       =>  $formdata['medicine_manufacture_month'],
             ':medicine_manufacture_year'        =>  $formdata['medicine_manufacture_year'],
-//            ':medicine_expired_month'           =>  $formdata['medicine_expired_month'],
-//            ':medicine_expired_year'            =>  $formdata['medicine_expired_year'],
-            ':medecine_expired_date'            =>  $formdata['medecine_expired_date'],
+            //            ':medicine_expired_month'           =>  $formdata['medicine_expired_month'],
+            //            ':medicine_expired_year'            =>  $formdata['medicine_expired_year'],
+            ':medicine_expired_date'            =>  $formdata['medicine_expired_date'],
+            ':medicine_expired_status'          => $medicine_expired_status,
             ':medicine_sale_price_per_unit'     =>  $formdata['medicine_sale_price_per_unit'],
             ':medicine_purchase_id'             =>  $medicine_purchase_id
         );
@@ -256,7 +288,8 @@ if (isset($_POST["edit_medicine_purchase"])) {
             medicine_purchase_total_cost = :medicine_purchase_total_cost, 
             medicine_manufacture_month = :medicine_manufacture_month, 
             medicine_manufacture_year = :medicine_manufacture_year, 
-            medecine_expired_date = :medecine_expired_date, 
+            medicine_expired_date = :medicine_expired_date,
+            medicine_expired_status = :medicine_expired_status,
             medicine_sale_price_per_unit = :medicine_sale_price_per_unit  
             WHERE medicine_purchase_id = :medicine_purchase_id
             ";
@@ -438,78 +471,34 @@ include('header.php');
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
-                                        <input class="form-control" id="medecine_expired_date" type="date" name="medecine_expired_date" value="date('Y-m-d')" />
-                                        <label for="medicine_expired_year">Date d'expiration</label>
+                                            <input class="form-control" id="medicine_expired_date" type="date" name="medicine_expired_date" value="<?php echo (date('Y-m-d')) ?>" />
+                                            <label for="medicine_expired_date">Date d'expiration</label>
 
-                                            <!--<select name="medicine_expired_month" class="form-control" id="medicine_expired_month">
-                                                <option value="">Select</option>
-                                                <option value="01">January</option>
-                                                <option value="02">February</option>
-                                                <option value="03">March</option>
-                                                <option value="04">April</option>
-                                                <option value="05">May</option>
-                                                <option value="06">June</option>
-                                                <option value="07">July</option>
-                                                <option value="08">August</option>
-                                                <option value="09">September</option>
-                                                <option value="10">October</option>
-                                                <option value="11">November</option>
-                                                <option value="12">December</option>
-                                            </select>-->
                                             <?php
-                                            if (isset($_POST["medecine_expired_date"])) {
-                                                echo '
-                                                                <script>
-                                                                document.getElementById("medecine_expired_date").value = "' . $_POST["medecine_expired_date"] . '"
-                                                                </script>
-                                                                ';
+                                            if (isset($_POST["medicine_expired_date"])) {
+                                                echo '<script>document.getElementById("medicine_expired_date").value = "' . $_POST["medicine_expired_date"] . '"</script>';
                                             }
                                             ?>
-                                            <!--<label for="medicine_expired_month">Mois d'expiration</label>-->
                                         </div>
                                     </div>
-                                    <!--<div class="col-md-6">
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
                                         <div class="form-floating mb-3">
-                                            <select name="medicine_expired_year" class="form-control" id="medicine_expired_year">
-                                                <option value="">Select</option>
-                                                <?php/*
-                                                for ($i = date("Y"); $i < date("Y") + 10; $i++) {
-                                                    echo '<option value="' . $i . '">' . $i . '</option>';
-                                                }
-                                                */?>
-                                            </select>
-                                            <?php/*
-                                            if (isset($_POST["medicine_expired_year"])) {
-                                                echo '
-                                                                <script>
-                                                                document.getElementById("medicine_expired_year").value = "' . $_POST["medicine_expired_year"] . '"
-                                                                </script>
-                                                                ';
-                                            }
-                                            */?>
-                                            <label for="medicine_expired_year">Annee d'expiration</label>
+                                            <input class="form-control" id="medicine_batch_no" type="text" placeholder="Enter Batch Number" name="medicine_batch_no" value="<?php if (isset($_POST["medicine_batch_no"])) echo $_POST["medicine_batch_no"]; ?>" />
+                                            <label for="medicine_batch_no">Numero du code barre du medicamenet</label>
                                         </div>
-                                    </div>-->
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input class="form-control" id="medicine_sale_price_per_unit" type="number" placeholder="Enter Sale Price per Unit" name="medicine_sale_price_per_unit" step=".01" value="<?php if (isset($_POST["medicine_sale_price_per_unit"])) echo $_POST["medicine_sale_price_per_unit"]; ?>" />
+                                            <label for="medicine_sale_price_per_unit">Prix de vente</label>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-floating mb-3">
-                                    <input class="form-control" id="medicine_batch_no" type="text" placeholder="Enter Batch Number" name="medicine_batch_no" value="<?php if (isset($_POST["medicine_batch_no"])) echo $_POST["medicine_batch_no"]; ?>" />
-                                    <label for="medicine_batch_no">Numero du code barre du medicamenet</label>
+                                <div class="mt-4 mb-0">
+                                    <input type="submit" name="add_medicine_purchase" class="btn btn-success" value="Add" />
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating mb-3">
-                                    <input class="form-control" id="medicine_sale_price_per_unit" type="number" placeholder="Enter Sale Price per Unit" name="medicine_sale_price_per_unit" step=".01" value="<?php if (isset($_POST["medicine_sale_price_per_unit"])) echo $_POST["medicine_sale_price_per_unit"]; ?>" />
-                                    <label for="medicine_sale_price_per_unit">Prix de vente</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-4 mb-0">
-                            <input type="submit" name="add_medicine_purchase" class="btn btn-success" value="Add" />
-                        </div>
                     </form>
                 </div>
             </div>
@@ -620,71 +609,39 @@ include('header.php');
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3">
-                                                    <input class="form-control" id="medecine_expired_date" type="date" name="medecine_expired_date" value="date('Y-m-d')" />
-                                                    <label for="medicine_expired_year">Date d'expiration</label>
-                                                    <!--<select name="medicine_expired_month" class="form-control" id="medicine_expired_month">
-                                                        <option value="">Select</option>
-                                                        <option value="01">January</option>
-                                                        <option value="02">February</option>
-                                                        <option value="03">March</option>
-                                                        <option value="04">April</option>
-                                                        <option value="05">May</option>
-                                                        <option value="06">June</option>
-                                                        <option value="07">July</option>
-                                                        <option value="08">August</option>
-                                                        <option value="09">September</option>
-                                                        <option value="10">October</option>
-                                                        <option value="11">November</option>
-                                                        <option value="12">December</option>
-                                                    </select>
-                                                    <label for="medicine_expired_month">Mois d'expiration</label>-->
+                                                    <input class="form-control" id="medicine_expired_date" type="date" name="medicine_expired_date" value="<?php print($medicine_purchase_row["medicine_expired_date"]); ?>" />
+                                                    <label for="medicine_expired_date">Date d'expiration</label>
                                                 </div>
                                             </div>
-                                            <!--<div class="col-md-6">
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
                                                 <div class="form-floating mb-3">
-                                                    <select name="medicine_expired_year" class="form-control" id="medicine_expired_year">
-                                                        <option value="">Select</option>
-                                                        <?php/*
-                                                        for ($i = date("Y"); $i < date("Y") + 10; $i++) {
-                                                            echo '<option value="' . $i . '">' . $i . '</option>';
-                                                        }
-                                                        */?>
-                                                    </select>
-                                                    <label for="medicine_expired_year">Annee d'expiration</label>
+                                                    <input class="form-control" id="medicine_batch_no" type="text" placeholder="Enter Batch Number" name="medicine_batch_no" value="<?php echo $medicine_purchase_row["medicine_batch_no"]; ?>" />
+                                                    <label for="medicine_batch_no">Numero du code barre du medicamenet</label>
                                                 </div>
-                                            </div>-->
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3">
+                                                    <input class="form-control" id="medicine_sale_price_per_unit" type="number" placeholder="Enter Sale Price per Unit" name="medicine_sale_price_per_unit" step=".01" value="<?php echo $medicine_purchase_row["medicine_sale_price_per_unit"]; ?>" />
+                                                    <label for="medicine_sale_price_per_unit">Prix de vente</label>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-floating mb-3">
-                                            <input class="form-control" id="medicine_batch_no" type="text" placeholder="Enter Batch Number" name="medicine_batch_no" value="<?php echo $medicine_purchase_row["medicine_batch_no"]; ?>" />
-                                            <label for="medicine_batch_no">Numero du code barre du medicamenet</label>
+                                        <div class="mt-4 mb-0">
+                                            <input type="hidden" name="medicine_purchase_id" value="<?php echo trim($_GET["code"]); ?>" />
+                                            <input type="submit" name="edit_medicine_purchase" class="btn btn-primary" value="Edit" />
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating mb-3">
-                                            <input class="form-control" id="medicine_sale_price_per_unit" type="number" placeholder="Enter Sale Price per Unit" name="medicine_sale_price_per_unit" step=".01" value="<?php echo $medicine_purchase_row["medicine_sale_price_per_unit"]; ?>" />
-                                            <label for="medicine_sale_price_per_unit">Prix de vente</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mt-4 mb-0">
-                                    <input type="hidden" name="medicine_purchase_id" value="<?php echo trim($_GET["code"]); ?>" />
-                                    <input type="submit" name="edit_medicine_purchase" class="btn btn-primary" value="Edit" />
-                                </div>
                             </form>
                         </div>
                     </div>
                     <script>
                         document.getElementById('medicine_id').value = "<?php echo $medicine_purchase_row["medicine_id"]; ?>";
                         document.getElementById('supplier_id').value = "<?php echo $medicine_purchase_row["supplier_id"]; ?>";
-                        /*document.getElementById('medicine_manufacture_month').value = "<?php/* echo $medicine_purchase_row["medicine_manufacture_month"]; */?>";*/
+
                         document.getElementById('medicine_manufacture_year').value = "<?php echo $medicine_purchase_row["medicine_manufacture_year"]; ?>";
                         document.getElementById('medicine_manufacture_month').value = "<?php echo $medicine_purchase_row["medicine_manufacture_month"]; ?>";
-                        document.getElementById('medecine_expired_date').value = "<?php echo $medicine_purchase_row["medecine_expired_date"]; ?>";
-                        /*document.getElementById('medicine_expired_year').value = "<?php/* echo $medicine_purchase_row["medicine_expired_year"]; */?>";*/
+                        document.getElementById('medicine_expired_date').value = "<?php echo $medicine_purchase_row["medicine_expired_date"]; ?>";
                     </script>
 
         <?php
@@ -744,6 +701,7 @@ include('header.php');
                             <th>Fournisseur</th>
                             <th>Quantite disponible</th>
                             <th>Date de expiration</th>
+                            <th>Status d'Expiration</th>
                             <th>Prix de vente</th>
                             <th>Status</th>
                             <!--<th>Added On</th>
@@ -758,6 +716,7 @@ include('header.php');
                             <th>Fournisseur</th>
                             <th>Quantite disponible</th>
                             <th>Date de expiration</th>
+                            <th>Status d'Expiration</th>
                             <th>Prix de vente</th>
                             <th>Status</th>
                             <!--<th>Added On</th>
@@ -769,26 +728,52 @@ include('header.php');
                         <?php
                         foreach ($result as $row) {
                             $medicine_purchase_status = '';
+                            $medicine_expired_status = '';
                             if ($row["medicine_purchase_status"] == 'Enable') {
                                 $medicine_purchase_status = '<div class="badge bg-success">Enable</div>';
                             } else {
                                 $medicine_purchase_status = '<div class="badge bg-danger">Disable</div>';
                             }
+
+                            $date1 = date_create(date('Y-m-d'));
+                            $date2 =  date_create($row["medicine_expired_date"]);
+
+                            $diff = date_diff($date1, $date2);
+                            $date_diff = $diff->format("%a");
+
+                            $days = 15;
+
+                            if ($date_diff <= $days) {
+
+                                $data = array(':medicine_expired_date' => $row["medicine_expired_date"]);
+                                $object->query = "
+                                UPDATE `medicine_purchase_msbs` SET`medicine_expired_status`='warning' WHERE `medicine_expired_date` = :medicine_expired_date";
+
+                                $object->execute($data);
+
+                                $medicine_expired_status = '<div class="badge bg-warning">Warning</div>';
+                            } else {
+                                $medicine_expired_status = '<div class="badge bg-success">Active</div>';
+                            }
+
+
+
                             echo '
-                                            <tr>
-                                                <td>' . $row["medicine_name"] . '</td>
-                                                <td>' . $row["medicine_batch_no"] . '</td>
-                                                <td>' . $row["supplier_name"] . '</td>
-                                                <td>' . $row["available_quantity"] . '</td>
-                                                <td>' . $row["medecine_expired_date"] . '</td>
-                                                <td>' . $object->cur_sym . number_format($row["medicine_sale_price_per_unit"],0) . '</td>
-                                                <td>' . $medicine_purchase_status . '</td>
-                                                <td>
-                                                    <a href="medicine_purchase.php?action=edit&code=' . $object->convert_data($row["medicine_purchase_id"]) . '" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
-                                                    <button type="button" name="delete_button" class="btn btn-danger btn-sm" onclick="delete_data(`' . $object->convert_data($row["medicine_purchase_id"]) . '`, `' . $row["medicine_purchase_status"] . '`, `' . $object->convert_data($row["medicine_id"]) . '`);"><i class="fas fa-times"></i></button>
-                                                </td>
-                                            </tr>
-                                            ';
+                                <tr>
+                                    <td>' . $row["medicine_name"] . '</td>
+                                    <td>' . $row["medicine_batch_no"] . '</td>
+                                    <td>' . $row["supplier_name"] . '</td>
+                                    <td>' . $row["available_quantity"] . '</td>
+                                    <td>' . $row["medicine_expired_date"] . '</td>
+                                    <td>' . $medicine_expired_status . '</td>
+                                    <td>' . $object->cur_sym . number_format($row["medicine_sale_price_per_unit"], 0) . '</td>
+                                    <td>' . $medicine_purchase_status . '</td>
+                                    <td>
+                                        <a href="medicine_purchase.php?action=edit&code=' . $object->convert_data($row["medicine_purchase_id"]) . '" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
+                                        <button type="button" name="delete_button" class="btn btn-danger btn-sm" onclick="delete_data(`' . $object->convert_data($row["medicine_purchase_id"]) . '`, `' . $row["medicine_purchase_status"] . '`, `' . $object->convert_data($row["medicine_id"]) . '`);"><i class="fas fa-times"></i></button>
+                                    </td>
+                                </tr>
+                                ';
                         }
                         ?>
                     </tbody>
