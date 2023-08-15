@@ -11,8 +11,10 @@
     <link href="<?php echo $object->base_url; ?>css/simple-datatables-style.css" rel="stylesheet" />
     <link href="<?php echo $object->base_url; ?>css/styles.css" rel="stylesheet" />
     <script src="<?php echo $object->base_url; ?>js/font-awesome-5-all.min.js" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <link rel="stylesheet" href="<?php echo $object->base_url; ?>css/vanillaSelectBox.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel=" stylesheet" href="<?php echo $object->base_url; ?>css/vanillaSelectBox.css" />
     <script src="<?php echo $object->base_url; ?>js/vanillaSelectBox.js"></script>
 </head>
 

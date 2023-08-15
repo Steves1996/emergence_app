@@ -98,8 +98,8 @@ $medicine_result = $object->get_result();
 			List alerte stock
 		</div>
 		<div class="card-body">
-			<table id="datatablesSimple">
-				<thead>
+			<table id="datatablesSimple" class="table table-bordered table-hover">
+				<thead class="table-light">
 					<tr>
 						<th>Medicine Name</th>
 						<th>Alert Stock</th>
@@ -108,7 +108,7 @@ $medicine_result = $object->get_result();
 						<th>Action</th>
 					</tr>
 				</thead>
-				<tfoot>
+				<tfoot class="table-light">
 					<tr>
 						<th>Medicine Name</th>
 						<th>Alert Stock</th>
@@ -153,8 +153,8 @@ $medicine_result = $object->get_result();
 			List alert Expiration date
 		</div>
 		<div class="card-body">
-			<table id="datatablesSimple">
-				<thead>
+			<table id="datatablesSimple" class="table table-bordered table-hover">
+				<thead class="table-light">
 					<tr>
 						<th>Nom du medicament</th>
 						<th>Fournisseur</th>
@@ -163,7 +163,7 @@ $medicine_result = $object->get_result();
 						<th>Status d'Expiration</th>
 					</tr>
 				</thead>
-				<tfoot>
+				<tfoot class="table-light">
 					<tr>
 						<th>Nom du medicament</th>
 						<th>Fournisseur</th>
@@ -172,9 +172,8 @@ $medicine_result = $object->get_result();
 						<th>Status d'Expiration</th>
 					</tr>
 				</tfoot>
-				<tbody>
+				<tbody class="tbody">
 					<?php
-
 					$object->query = "
 						SELECT * FROM medicine_purchase_msbs 
 						INNER JOIN medicine_msbs 
