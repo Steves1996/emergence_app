@@ -10,7 +10,19 @@ if (!$object->is_login()) {
     header('location:login.php');
 }
 
-$where = "WHERE medicine_purchase_msbs.medicine_purchase_enter_by = '" . $_SESSION["user_id"] . "' ";;
+$fromDate = $toDate = "";
+$where_date = "";
+if (isset($_POST['submit'])) {
+    $from_date = $_POST['from_date'];
+    $to_date = $_POST['to_date'];
+
+    $fromDate = $from_date;
+    $toDate = $to_date;
+
+    $where_date = " AND medicine_expired_date BETWEEN '" . $from_date . "' AND '" . $to_date . "' ";
+}
+
+$where = "WHERE medicine_purchase_msbs.medicine_purchase_enter_by = '" . $_SESSION["user_id"] . "'";
 
 $object->query = "
     SELECT * FROM medicine_purchase_msbs 
@@ -19,6 +31,7 @@ $object->query = "
     INNER JOIN  supplier_msbs 
     ON  supplier_msbs.supplier_id = medicine_purchase_msbs.supplier_id 
     " . $where . "
+    $where_date
     ORDER BY medicine_purchase_msbs.medicine_purchase_id DESC
 ";
 
@@ -684,7 +697,7 @@ include('header.php');
         <div class="card mb-4">
             <div class="card-header">
                 <div class="row">
-                    <div class="col col-md-6">
+                    <div class="col col-md--6">
                         <i class="fas fa-table me-1"></i> Gestion des medicaments achetés
                     </div>
                     <div class="col col-md-6" align="right">
@@ -692,6 +705,20 @@ include('header.php');
                     </div>
                 </div>
             </div>
+            <form class="card-body" method="POST">
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <input type="date" name="from_date" id="from_date" class="form-control" placeholder="Form Date" value="<?php echo $fromDate ?>">
+                    </div>
+                    <div class="col-md-4">
+                        <input type="date" name="to_date" id="to_date" class="form-control" placeholder="Form Date" value="<?php echo $toDate ?>">
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" name="submit" class="btn btn-primary">Filter medicine</button>
+                    </div>
+                </div>
+            </form>
             <div class="card-body">
                 <table id="datatablesSimple">
                     <thead>
