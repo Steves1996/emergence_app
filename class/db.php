@@ -1,5 +1,4 @@
 <?php
-
 class db
 {
 	public $base_url;
