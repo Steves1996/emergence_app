@@ -74,6 +74,11 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-search-location"></i></div>
                                 Rang sur comptoire
                             </a>
+                            
+                            <a class="nav-link" href="repport.php">
+                                <div class="sb-nav-link-icon"><i class="fas fa-chart"></i></div>
+                                Rapport des ventes
+                            </a>
                             <!-- <a class="nav-link" href="company.php">
                                 <div class="sb-nav-link-icon"><i class="fas fa-building"></i></div>
                                 Fabriquant
