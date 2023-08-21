@@ -16,6 +16,15 @@ if (!$object->is_master_user()) {
 
 $fromDate = $toDate = "";
 $where_date = "";
+if (isset($_POST['submit'])) {
+    $from_date = $_POST['from_date'];
+    $to_date = $_POST['to_date'];
+
+    $fromDate = $from_date;
+    $toDate = $to_date;
+
+    $where_date = "WHERE om.order_added_on BETWEEN '" . $from_date . "' AND '" . $to_date . "' ";
+}
 
 $object->query = "
             SELECT mm.medicine_name, oim.medicine_quantity, oim.medicine_price, om.order_added_on, um.user_name
@@ -26,6 +35,7 @@ $object->query = "
             ON oim.order_id = om.order_id
             JOIN user_msbs um
             ON om.order_created_by = um.user_id
+            $where_date
 ";
 
 $result = $object->get_result();
