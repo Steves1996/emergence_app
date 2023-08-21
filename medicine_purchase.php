@@ -10,19 +10,48 @@ if (!$object->is_login()) {
     header('location:login.php');
 }
 
-$where = "WHERE medicine_purchase_msbs.medicine_purchase_enter_by = '" . $_SESSION["user_id"] . "' ";;
 
+if (!$object->is_master_user()) {
+    header('location:index.php');
+}
+
+$fromDate = $toDate = "";
+$where_date = "";
+if (isset($_POST['submit'])) {
+    $from_date = $_POST['from_date'];
+    $to_date = $_POST['to_date'];
+
+    $fromDate = $from_date;
+    $toDate = $to_date;
+
+    $where_date = "WHERE medicine_purchase_datetime  BETWEEN '" . $from_date . "' AND '" . $to_date . "' ";
+}
 $object->query = "
     SELECT * FROM medicine_purchase_msbs 
     INNER JOIN medicine_msbs 
     ON medicine_msbs.medicine_id = medicine_purchase_msbs.medicine_id 
     INNER JOIN  supplier_msbs 
     ON  supplier_msbs.supplier_id = medicine_purchase_msbs.supplier_id 
-    " . $where . "
+    " . $where_date . "
     ORDER BY medicine_purchase_msbs.medicine_purchase_id DESC
 ";
 
 $result = $object->get_result();
+
+
+// $where = "WHERE medicine_purchase_msbs.medicine_purchase_enter_by = '" . $_SESSION["user_id"] . "' ";;
+
+// $object->query = "
+//     SELECT * FROM medicine_purchase_msbs 
+//     INNER JOIN medicine_msbs 
+//     ON medicine_msbs.medicine_id = medicine_purchase_msbs.medicine_id 
+//     INNER JOIN  supplier_msbs 
+//     ON  supplier_msbs.supplier_id = medicine_purchase_msbs.supplier_id 
+//     " . $where . "
+//     ORDER BY medicine_purchase_msbs.medicine_purchase_id DESC
+// ";
+
+// $result = $object->get_result();
 
 $message = '';
 
@@ -754,6 +783,23 @@ include('header.php');
                     </div>
                 </div>
             </div>
+            <form class="card-body" method="POST">
+                <div class="row">
+
+                    <div class="col-md-2">
+                        <input type="date" name="from_date" id="from_date" class="form-control" placeholder="Form Date" value="<?php echo $fromDate ?>">
+                    </div>
+                    <div class="col-md-2">
+                        <input type="date" name="to_date" id="to_date" class="form-control" placeholder="Form Date" value="<?php echo $toDate ?>">
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" name="submit" class="btn btn-primary">Filter medicine</button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" onclick="Convert_HTML_To_PDF();" class="btn btn-primary">Imprimer</button>
+                    </div>
+                </div>
+            </form>
             <div class="card-body">
                 <table id="datatablesSimple">
                     <thead>
@@ -765,8 +811,8 @@ include('header.php');
                             <th>Date de expiration</th>
                             <th>Prix de vente</th>
                             <th>Status</th>
-                            <!--<th>Added On</th>
-                                                <th>Updated On</th>!-->
+                            <th>Added On</th>
+                                                <!--<th>Updated On</th>!-->
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -779,8 +825,8 @@ include('header.php');
                             <th>Date de expiration</th>
                             <th>Prix de vente</th>
                             <th>Status</th>
-                            <!--<th>Added On</th>
-                                                <th>Updated On</th>!-->
+                            <th>Added On</th>
+                                                <!--<th>Updated On</th>!-->
                             <th>Action</th>
                         </tr>
                     </tfoot>
@@ -802,6 +848,7 @@ include('header.php');
                                                 <td>' . $row["medicine_expired_month"] . '/' . $row["medicine_expired_year"] . '</td>
                                                 <td>' . $object->cur_sym . number_format($row["medicine_sale_price_per_unit"],0) . '</td>
                                                 <td>' . $medicine_purchase_status . '</td>
+                                                <td>' . $row["medicine_purchase_datetime"] . '</td>
                                                 <td>
                                                     <a href="medicine_purchase.php?action=edit&code=' . $object->convert_data($row["medicine_purchase_id"]) . '" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
                                                     <button type="button" name="delete_button" class="btn btn-danger btn-sm" onclick="delete_data(`' . $object->convert_data($row["medicine_purchase_id"]) . '`, `' . $row["medicine_purchase_status"] . '`, `' . $object->convert_data($row["medicine_id"]) . '`);"><i class="fas fa-times"></i></button>
@@ -815,6 +862,9 @@ include('header.php');
             </div>
         </div>
         <script>
+            
+           
+
             function delete_data(code, status, id) {
                 var new_status = 'Enable';
                 if (status == 'Enable') {
@@ -824,6 +874,29 @@ include('header.php');
                     window.location.href = "medicine_purchase.php?action=delete&code=" + code + "&status=" + new_status + "&id=" + id + "";
                 }
             }
+
+
+        // Convert HTML content to PDF
+        function Convert_HTML_To_PDF() {
+            window.jsPDF = window.jspdf.jsPDF;
+            var doc = new jsPDF();
+            
+            // Source HTMLElement or a string containing HTML.
+            var elementHTML = document.querySelector("#datatablesSimple");
+
+            doc.html(elementHTML, {
+                callback: function(doc) {
+                    // Save the PDF
+                    doc.save('medecine.pdf');
+                },
+                margin: [10, 10, 10, 10],
+                autoPaging: 'text',
+                x: 0,
+                y: 0,
+                width: 190, //target width in the PDF document
+                windowWidth: 675 //window width in CSS pixels
+            });
+        }
         </script>
     <?php
     }

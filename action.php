@@ -33,7 +33,7 @@ if(isset($_POST["action"]))
 			$data['medicine_name']					=	$row["medicine_name"];
 			$data['medicine_batch_no']				=	$row["medicine_batch_no"];
 			$data['available_quantity']				=	$row["available_quantity"];
-			$data['medicine_expiry_date']			=	$row["medicine_expired_month"] . '/' . $row["medicine_expired_year"];
+			$data['medicine_expiry_date']			=	$row["medicine_expired_date"];
 			$data['medicine_sale_price_per_unit']	=	$row["medicine_sale_price_per_unit"];
 			$data['medicine_pack_data']				=	$row["medicine_pack_qty"] . ' ' . $object->Get_category_name($row["medicine_category"]);
 			$data['medicine_company']				=	$object->Get_Medicine_company_code($row["medicine_manufactured_by"]);
