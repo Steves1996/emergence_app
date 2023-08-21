@@ -1,5 +1,4 @@
 <?php
-
 class db
 {
 	public $base_url;
@@ -9,7 +8,7 @@ class db
 	public $now;
 	public $cur_sym;
 
-	function db()
+	function __construct()
 	{
 		if (file_exists(dirname(__DIR__) . '/install/credential.inc'))
 		{
