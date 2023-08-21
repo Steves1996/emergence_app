@@ -48,7 +48,7 @@ function generateRow()
 require_once('tcpdf/tcpdf.php');
 $pdf = new TCPDF('P', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 $pdf->SetCreator(PDF_CREATOR);
-$pdf->SetTitle("Generated PDF using TCPDF");
+$pdf->SetTitle("CM-Emergence");
 $pdf->SetHeaderData('', '', PDF_HEADER_TITLE, PDF_HEADER_STRING);
 $pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
 $pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
@@ -62,7 +62,7 @@ $pdf->SetFont('helvetica', '', 11);
 $pdf->AddPage();
 $content = '';
 $content .= '
-      	<h2 align="center">Generated PDF using TCPDF</h2>
+      	<h2 align="center">CM-Emergence</h2>
       	<h4>Liste des Medicaments</h4>
       	<table border="1" cellspacing="0" cellpadding="3">
            <tr>

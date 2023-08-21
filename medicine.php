@@ -474,7 +474,7 @@ include('header.php');
                     </div>
                     <div class="col col-md-6" align="right">
                         <a href="medicine.php?action=add&code=<?php echo $object->convert_data('add'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>Add</a>
-                        <a href="print_pdf.php" class="btn-warning btn btn-sm" target="_blank"><i class="fa fa-file-pdf"></i>Print</a>
+                        <a href="medicine_print_pdf.php" class="btn-warning btn btn-sm" target="_blank"><i class="fa fa-file-pdf"></i>Print</a>
                     </div>
                 </div>
             </div>
