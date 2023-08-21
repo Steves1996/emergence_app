@@ -12,6 +12,12 @@
     <link href="<?php echo $object->base_url; ?>css/styles.css" rel="stylesheet" />
     <script src="<?php echo $object->base_url; ?>js/font-awesome-5-all.min.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- bootstrap css and js -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <!-- JS for jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="<?php echo $object->base_url; ?>css/vanillaSelectBox.css" />
     <script src="<?php echo $object->base_url; ?>js/vanillaSelectBox.js"></script>
 </head>
@@ -80,11 +86,11 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-pills"></i></div>
                                 Medicament
                             </a>
-                            
-                        <a class="nav-link" href="medicine_purchase.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-clipboard"></i></div>
-                            Entrer en stock
-                        </a>
+
+                            <a class="nav-link" href="medicine_purchase.php">
+                                <div class="sb-nav-link-icon"><i class="fas fa-clipboard"></i></div>
+                                Entrer en stock
+                            </a>
                         <?php
                         }
                         ?>
