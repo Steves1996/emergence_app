@@ -29,6 +29,16 @@ $object->query = "
 
 $medicine_result = $object->get_result();
 
+$object->query = "
+	SELECT COUNT(oim.medicine_id) as nbr, mm.medicine_name 
+	from order_item_msbs oim
+	JOIN medicine_msbs mm
+	ON oim.medicine_id = mm.medicine_id
+	GROUP BY mm.medicine_id 
+	ORDER BY COUNT(oim.medicine_id) DESC LIMIT 1
+";
+
+$best_medicine_sell = $object->get_result();
 ?>
 
 <div class="container-fluid px-4">
@@ -77,9 +87,14 @@ $medicine_result = $object->get_result();
 			<div class="card mb-4">
 				<div class="card-header">
 					<i class="fas fa-chart-area me-1"></i>
-					Status des ventes
+					Medicament le plus vendu
 				</div>
-				<div class="card-body"><canvas id="saleChart" width="100%" height="40"></canvas></div>
+				<div class="card-body"><?php 
+				foreach ($best_medicine_sell as $row) {
+					echo $row['medicine_name'];
+				}
+				
+				?></div>
 			</div>
 		</div>
 		<div class="col-xl-6">

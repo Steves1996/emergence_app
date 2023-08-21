@@ -83,7 +83,8 @@ include('header.php');
                             <th>date de vente</th>
                             <th>Vendeur</th>
                             <th>Quantite vendu</th>
-                            <th>Prix total</th>
+                            <th>Prix Unitaire</th>
+                            <th>Prix Total</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -92,14 +93,18 @@ include('header.php');
                             <th>date de vente</th>
                             <th>Vendeur</th>
                             <th>Quantite vendu</th>
-                            <th>Prix total</th>
+                            <th>Prix Unitaire</th>
+                            <th>Prix Total</th>
                         </tr>
                     </tfoot>
                     <tbody>
                     <?php
                     $TotalAmount = 0;
+                    $totalAmountProduct = 0;
                         foreach ($result as $row) {
-                            $TotalAmount += $row["medicine_price"];
+                            
+                            $totalAmountProduct = $row["medicine_quantity"] * $row["medicine_price"];
+                            $TotalAmount += $totalAmountProduct;
                             echo '
                                             <tr>
                                                 <td>' . $row["medicine_name"] . '</td>
@@ -107,6 +112,7 @@ include('header.php');
                                                 <td>' . $row["user_name"] . '</td>
                                                 <td>' . $row["medicine_quantity"] . '</td>
                                                 <td>' . $row["medicine_price"] . '</td>
+                                                <td>' . $object->cur_sym.number_format($totalAmountProduct, 0) . '</td>
                                             </tr>
                                             ';
                         }
@@ -116,11 +122,11 @@ include('header.php');
                 
                 <div class="row">
                     <div class="col-md-4">
-                        <h2 class="control-label accordion-header">Total vente</h2>
+                        <h2 class="control-label accordion-header">Total Vendu</h2>
                     </div>
                     <div class="col-md-4">
                         <h3 class="control-label accordion-body"> <?php
-                         echo $TotalAmount;
+                         echo $object->cur_sym.number_format($TotalAmount,0);
                         ?> XAF</h3>
                     </div>
                 </div>

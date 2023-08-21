@@ -69,10 +69,6 @@
                                 Rang sur comptoire
                             </a>
                             
-                            <a class="nav-link" href="repport.php">
-                                <div class="sb-nav-link-icon"><i class="fas fa-chart"></i></div>
-                                Rapport des ventes
-                            </a>
                             <!-- <a class="nav-link" href="company.php">
                                 <div class="sb-nav-link-icon"><i class="fas fa-building"></i></div>
                                 Fabriquant
@@ -90,6 +86,11 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-clipboard"></i></div>
                             Entrer en stock
                         </a>
+                        
+                        <a class="nav-link" href="repport.php">
+                                <div class="sb-nav-link-icon"><i class="fas fa-chart"></i></div>
+                                Rapport des ventes
+                            </a>
                         <?php
                         }
                         ?>
