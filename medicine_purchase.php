@@ -778,7 +778,9 @@ include('header.php');
                     </div>
                     <div class="col col-md-6" align="right">
                         <a href="medicine_purchase.php?action=add&code=<?php echo $object->convert_data('add'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> un entre stock</a>
+                        <a href="medicine_purchase_print_pdf.php" class="btn-warning btn btn-sm" target="_blank"><i class="fa fa-file-pdf"></i>Print</a>
                     </div>
+
                 </div>
             </div>
             <form class="card-body" method="POST">
@@ -791,11 +793,9 @@ include('header.php');
                         <input type="date" name="to_date" id="to_date" class="form-control" placeholder="Form Date" value="<?php echo $toDate ?>">
                     </div>
                     <div class="col-md-2">
-                        <button type="submit" name="submit" class="btn btn-primary">Filter medicine</button>
+                        <button type="submit" name="submit" class="btn btn-primary"><i class="bi bi-funnel"></i>Filter medicine</button>
                     </div>
-                    <div class="col-md-2">
-                        <button type="button" onclick="Convert_HTML_To_PDF();" class="btn btn-primary">Imprimer</button>
-                    </div>
+
                 </div>
             </form>
             <div class="card-body">

@@ -64,10 +64,10 @@ $content = '';
 $content .= '
       	<h2 align="center">CM-Emergence</h2>
       	<h4>Liste des Medicaments</h4>
-      	<table border="1" cellspacing="0" cellpadding="3">
+      	<table border="1" cellspacing="0" cellpadding="1">
            <tr>
-				<th><b>Sr.</b></th>
-				<th><b>Nom</b></th>
+				<th width="5%"><b>Sr.</b></th>
+				<th width="25%"><b>Nom</b></th>
 				<th><b>Fabriquant</b></th>
 				<th><b>Quantite disponible</b></th>
 				<th><b>Rang sur comptoir</b></th>

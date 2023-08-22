@@ -453,7 +453,7 @@ include('header.php');
 
                                                                     <td><input type="number" name="medicine_quantity[]" class="form-control medicine_quantity" placeholder="Quantity" value="' . $_POST["medicine_quantity"][$i] . '" min="1" onblur="check_qty(this); calculate_total();" /></td>
 
-                                                                    <td><input type="number" name="medicine_price[]" class="form-control item_unit_price" placeholder="Unit Price" value="' . number_format($order_row['medicine_sale_price_per_unit'],0) . '" min="1" /></td>
+                                                                    <td><input type="number" name="medicine_price[]" class="form-control item_unit_price" placeholder="Unit Price" value="' . number_format($order_row['medicine_sale_price_per_unit'], 0) . '" min="1" /></td>
 
                                                                     <td><span class="item_total_price">' . $order_row['medicine_sale_price_per_unit'] * $_POST["medicine_quantity"][$i] . '</span></td>
                                                                     <td><button type="button" name="remove_item" class="btn btn-danger btn-sm" onclick="deleteRow(this)"><i class="fas fa-minus"></i></button></td>
@@ -520,26 +520,26 @@ include('header.php');
                         }).then(function(responseData) {
                             console.log(responseData);
                             mySelect.empty();
-                                // mySelect.disableItems(med_id);
-                                var no = random_number(1, 99999);
-                                var html = '<tr id="' + no + '">';
-                                html += '<td>' + responseData.medicine_name + '<input type="hidden" name="medicine_id[]" value="' + responseData.medicine_id + '" /><input type="hidden" name="medicine_purchase_id[]" value="' + responseData.medicine_purchase_id + '" /></td>';
-                                html += '<td>' + responseData.medicine_pack_data + '</td>';
-                                html += '<td>' + responseData.medicine_company + '</td>';
-                                html += '<td>' + responseData.medicine_batch_no + '</td>';
-                                html += '<td>' + responseData.medicine_expiry_date + '</td>';
-                                html += '<td><input type="text" name="medicine_quantity[]" class="form-control medicine_quantity" placeholder="Quantity" value="1" min="1" onblur="check_qty(this); calculate_total();" data-number="' + no + '" /></td>';
-                                html += '<td><input type="text" name="medicine_price[]" class="form-control item_unit_price" value="' + responseData.medicine_sale_price_per_unit + '" onblur="calculate_total();" data-number="' + no + '"/></td>';
-                                html += '<td><span class="item_total_price" id="item_total_price_' + no + '">' + responseData.medicine_sale_price_per_unit + '</span></td>';
-                                html += '<td><button type="button" name="remove_item" class="btn btn-danger btn-sm" onclick="deleteRow(this)"><i class="fas fa-minus"></i></button></td>';
-                                html += '</tr>';
+                            // mySelect.disableItems(med_id);
+                            var no = random_number(1, 99999);
+                            var html = '<tr id="' + no + '">';
+                            html += '<td>' + responseData.medicine_name + '<input type="hidden" name="medicine_id[]" value="' + responseData.medicine_id + '" /><input type="hidden" name="medicine_purchase_id[]" value="' + responseData.medicine_purchase_id + '" /></td>';
+                            html += '<td>' + responseData.medicine_pack_data + '</td>';
+                            html += '<td>' + responseData.medicine_company + '</td>';
+                            html += '<td>' + responseData.medicine_batch_no + '</td>';
+                            html += '<td>' + responseData.medicine_expiry_date + '</td>';
+                            html += '<td><input type="text" name="medicine_quantity[]" class="form-control medicine_quantity" placeholder="Quantity" value="1" min="1" onblur="check_qty(this); calculate_total();" data-number="' + no + '" /></td>';
+                            html += '<td><input type="text" name="medicine_price[]" class="form-control item_unit_price" value="' + responseData.medicine_sale_price_per_unit + '" onblur="calculate_total();" data-number="' + no + '"/></td>';
+                            html += '<td><span class="item_total_price" id="item_total_price_' + no + '">' + responseData.medicine_sale_price_per_unit + '</span></td>';
+                            html += '<td><button type="button" name="remove_item" class="btn btn-danger btn-sm" onclick="deleteRow(this)"><i class="fas fa-minus"></i></button></td>';
+                            html += '</tr>';
 
-                                var data = document.getElementById('order_item_area');
+                            var data = document.getElementById('order_item_area');
 
-                                data.insertRow().innerHTML = html;
+                            data.insertRow().innerHTML = html;
 
-                                calculate_total();
-                            
+                            calculate_total();
+
 
                         });
                     }
@@ -629,7 +629,7 @@ include('header.php');
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <input class="form-control" id="doctor_name" type="text" placeholder="Enter Doctor Name" name="doctor_name" value="<?php echo $order_row["doctor_name"]; ?>" />
-                                            <label for="doctor_name">Doctor Name</label>
+                                            <label for="doctor_name">Doctor Name</lab el>
                                         </div>
                                     </div>
                                 </div>
@@ -790,7 +790,7 @@ include('header.php');
                         <i class="fas fa-table me-1"></i> Gestion des ventes
                     </div>
                     <div class="col col-md-6" align="right">
-                        <a href="order.php?action=add&code=<?php echo $object->convert_data('add'); ?>" class="btn btn-success btn-sm">Ajouter une vente</a>
+                        <a href="order.php?action=add&code=<?php echo $object->convert_data('add'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>Ajouter une vente</a>
                     </div>
                 </div>
             </div>
@@ -836,7 +836,7 @@ include('header.php');
                                                 <td>' . $row["order_id"] . '</td>
                                                 <td>' . $row["patient_name"] . '</td>
                                                 <td>' . $row["doctor_name"] . '</td>
-                                                <td>' . $object->cur_sym . number_format($row["order_total_amount"],0) . '</td>
+                                                <td>' . $object->cur_sym . number_format($row["order_total_amount"], 0) . '</td>
                                                 <td>' . $row["user_name"] . '</td>
                                                 <td>' . $order_status . '</td>
                                                 <td>' . $row["order_added_on"] . '</td>

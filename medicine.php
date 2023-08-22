@@ -488,7 +488,7 @@ include('header.php');
                         <input type="date" name="to_date" id="to_date" class="form-control" placeholder="Form Date" value="<?php echo $toDate ?>">
                     </div>
                     <div class="col-md-4">
-                        <button type="submit" name="submit" class="btn btn-primary">Filter medicine</button>
+                        <button type="submit" name="submit" class="btn btn-primary"><i class="bi bi-funnel"></i>Filter medicine</button>
                     </div>
                 </div>
             </form>
