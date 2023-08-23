@@ -473,7 +473,8 @@ include('header.php');
                         <i class="fas fa-table me-1"></i> Gestion des medicaments
                     </div>
                     <div class="col col-md-6" align="right">
-                        <a href="medicine.php?action=add&code=<?php echo $object->convert_data('add'); ?>" class="btn btn-success btn-sm">Add</a>
+                        <a href="medicine.php?action=add&code=<?php echo $object->convert_data('add'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>Add</a>
+                        <a href="medicine_print_pdf.php" class="btn-warning btn btn-sm" target="_blank"><i class="fa fa-file-pdf"></i>Print</a>
                     </div>
                 </div>
             </div>
@@ -487,7 +488,7 @@ include('header.php');
                         <input type="date" name="to_date" id="to_date" class="form-control" placeholder="Form Date" value="<?php echo $toDate ?>">
                     </div>
                     <div class="col-md-4">
-                        <button type="submit" name="submit" class="btn btn-primary">Filter medicine</button>
+                        <button type="submit" name="submit" class="btn btn-primary"><i class="bi bi-funnel"></i>Filter medicine</button>
                     </div>
                 </div>
             </form>

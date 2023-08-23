@@ -1,178 +1,164 @@
 <?php
+if (isset($_GET["action"], $_GET["code"]) && $_GET["action"] == 'pdf' && $_GET['code'] != '') {
 
-//print_order.php
+    include('class/db.php');
+    $GLOBALS['object'] = new db();
 
-if(isset($_GET["action"], $_GET["code"]) && $_GET["action"] == 'pdf' && $_GET['code'] != '')
-{
-	include('class/db.php');
+    function generateRow()
+    {
+        $contents = '';
 
-	$object = new db();
+        $object = $GLOBALS['object'];
 
-	$order_id = $object->convert_data(trim($_GET["code"]), 'decrypt');
+        $order_id = $object->convert_data(trim($_GET["code"]), 'decrypt');
 
-	$object->query = "
-	SELECT * FROM store_msbs 
-	LIMIT 1
-	";
+        $object->query = "
+        SELECT * FROM order_item_msbs 
+        WHERE order_id = '$order_id'
+        ";
 
-	$store_result = $object->get_result();
+        $order_item_result = $object->get_result();
 
-	$store_name = '';
-	$store_address = '';
-	$store_contact_no = '';
-	$store_email = '';
+        $count_medicine = 0;
+        $medicine_name = '';
+        $medicine_pack_qty = '';
+        $company_short_name = '';
+        $medicine_batch_no = '';
+        $expiry_date = '';
+        $medicine_price = '';
+        $medicine_quantity = '';
+        $sale_price = '';
 
-	foreach($store_result as $store_row)
-	{
-		$store_name = $store_row['store_name'];
-		$store_address = $store_row['store_address'];
-		$store_contact_no = $store_row['store_contact_no'];
-		$store_email = $store_row['store_email_address'];
-	}
+        foreach ($order_item_result as $order_item_row) {
+            $count_medicine++;
 
-	$html = '
-	<table width="100%" border="0" cellpadding="5" cellspacing="0">
-		<tr>
-			<td>&nbsp;</td>
-		</tr>
-		<tr>
-			<td>
-				<h2 align="center" style="margin-bottom:15px;">'.$store_name.'</h2>
-				<div align="center" style="margin-bottom:6px">'.$store_address.'</div><div align="center"><b>Phone No. : </b>'.$store_contact_no.' &nbsp;&nbsp;&nbsp;<b>Email : </b>'.$store_email.'</div>
-			</td>
-		</tr>
-		<tr>
-			<td>
-	';
+            $m_data = $object->Get_medicine_name($order_item_row['medicine_id'], $order_item_row["medicine_purchase_id"]);
 
-	$object->query = "
-	SELECT * FROM order_msbs 
-	WHERE order_id = '$order_id'
-	";
+            $medicine_name = $m_data["medicine_name"];
+            $medicine_pack_qty = $m_data["medicine_pack_qty"];
+            $company_short_name = $m_data["company_short_name"];
+            $medicine_batch_no = $m_data["medicine_batch_no"];
+            $expiry_date = $m_data["expiry_date"];
+            $medicine_price = $order_item_row["medicine_price"];
+            $medicine_quantity = $order_item_row["medicine_quantity"];
+            $sale_price = $object->cur_sym . number_format(floatval($order_item_row["medicine_price"] * $order_item_row["medicine_quantity"]), 2, '.', ',');
 
-	$total_amount = 0;
-	$created_by = '';
-	$order_date = '';
-	$patient_name = '';
-	$order_result = $object->get_result();
-	$html .= '
-				<table border="1" width="100%" cellpadding="5" cellspacing="0">
+            $contents .= "	
+            <tr>
+                <td>" . $count_medicine . "</td>
+                <td>" . $medicine_name . "</td>
+                <td>" . $medicine_pack_qty . "</td>
+                <td>" . $company_short_name . "</td>
+                <td>" . $expiry_date . "</td>
+                <td>" . $medicine_price . "</td>
+                <td>" . $medicine_quantity . "</td>
+                <td>" . $sale_price . "</td>
+            </tr>
+        ";
+        }
 
-	';
-	foreach($order_result as $order_row)
-	{
-		$patient_name = $order_row["patient_name"];
-		$html .= '
-					<tr>
-						<td width="50%">
-							<div style="margin-bottom:8px;"><b>Order No : </b>'.$order_row["order_id"].'</div>
-							<div style="margin-bottom:8px;"><b>Patient Name : </b>'.$order_row["patient_name"].'</div>
-							<div style="margin-bottom:8px;"><b>Doctor Name  : </b>'.$order_row["doctor_name"].'</div>
-														    <b>Date         : </b>'.$order_row["order_added_on"].'   
-						</td>
-						<td width="50%" align="center"><b>CASH MEMO</b></td>
-					</tr>
-		';
+        return $contents;
+    }
 
-		$total_amount = $order_row["order_total_amount"];
-		$created_by = $object->Get_user_name_from_id($order_row["order_created_by"]);
-	}
+    require_once('tcpdf/tcpdf.php');
+    $pdf = new TCPDF('P', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+    $pdf->SetCreator(PDF_CREATOR);
+    $pdf->SetTitle("CM-Emergence");
+    $pdf->SetHeaderData('', '', PDF_HEADER_TITLE, PDF_HEADER_STRING);
+    $pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+    $pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+    $pdf->SetDefaultMonospacedFont('helvetica');
+    $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+    $pdf->SetMargins(PDF_MARGIN_LEFT, '10', PDF_MARGIN_RIGHT);
+    $pdf->setPrintHeader(false);
+    $pdf->setPrintFooter(false);
+    $pdf->SetAutoPageBreak(TRUE, 10);
+    $pdf->SetFont('helvetica', '', 11);
+    $pdf->AddPage();
 
-	$object->query = "
-	SELECT * FROM order_item_msbs 
-	WHERE order_id = '$order_id'
-	";
+    $order_id = $object->convert_data(trim($_GET["code"]), 'decrypt');
 
-	$order_item_result = $object->get_result();
+    $object->query = "
+    SELECT * FROM store_msbs 
+    LIMIT 1
+    ";
 
-	$html .= '
-				</table>
-				<br />
-				<table width="100%" border="1" cellpadding="5" cellspacing="0">
-					<tr>
-						<td width="5%"><b>Sr.</b></td>
-						<td width="28%"><b>Particular</b></td>
-						<td width="10%"><b>Pack</b></td>
-						<td width="5%"><b>Mfg.</b></td>
-						<td width="10%"><b>Batch No.</b></td>
-						<td width="9%"><b>Expiry Dt.</b></td>
-						<td width="12%"><b>MRP</b></td>
-						<td width="8%"><b>Qty.</b></td>
-						<td width="15%"><b>Sale Price</b></td>
-					</tr>
-	';
+    //use for MySQLi OOP
+    $store_result = $object->get_result();
 
-	$count_medicine = 0;
+    $store_name = '';
+    $store_address = '';
+    $store_contact_no = '';
+    $store_email = '';
 
-	foreach($order_item_result as $order_item_row)
-	{
-		$count_medicine++;
+    foreach ($store_result as $store_row) {
+        $store_name = $store_row['store_name'];
+        $store_address = $store_row['store_address'];
+        $store_contact_no = $store_row['store_contact_no'];
+        $store_email = $store_row['store_email_address'];
+    }
 
-		$m_data = $object->Get_medicine_name($order_item_row['medicine_id'], $order_item_row["medicine_purchase_id"]);
+    $object->query = "
+    SELECT * FROM order_msbs 
+    WHERE order_id = '$order_id'
+    ";
 
-		$html .= '
-					<tr>
-						<td>'.$count_medicine.'</td>
-						<td>'.$m_data["medicine_name"].'</td>
-						<td>'.$m_data["medicine_pack_qty"].'</td>
-						<td>'.$m_data["company_short_name"].'</td>
-						<td>'.$m_data["medicine_batch_no"].'</td>
-						<td>'.$m_data["expiry_date"].'</td>
-						<td>'.$order_item_row["medicine_price"].'</td>
-						<td>'.$order_item_row["medicine_quantity"].'</td>
-						<td>'.$object->cur_sym . number_format(floatval($order_item_row["medicine_price"] * $order_item_row["medicine_quantity"]), 2, '.', ',').'</td>
-					</tr>
-		';
-	}
+    $total_amount = 0;
+    $order_idr = '';
+    $created_by = '';
+    $order_date = '';
+    $doctor_name = '';
+    $patient_name = '';
+    $order_result = $object->get_result();
 
-	$html .= '
-					<tr>
-						<td colspan="8" align="right"><b>Total</b></td>
-						<td>'.$object->cur_sym . number_format(floatval($total_amount), 2, '.', ' ').'</td>
-					</tr>
-	';
+    foreach ($order_result as $order_row) {
+        $order_idr = $order_row['order_id'];
+        $patient_name = $order_row['patient_name'];
+        $doctor_name = $order_row['doctor_name'];
+        $order_date = $order_row['order_added_on'];
+        $total_amount = $order_row['order_total_amount'];
+    }
 
-	$html .= '
-				</table>
-			</td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td>
-		</tr>
-		<tr>
-			<td align="right">Created By '.$created_by.'</td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td>
-		</tr>
-	</table>
+    $created_by = $object->Get_user_name_from_id($order_row["order_created_by"]);
 
-	';
 
-	//echo $html;
+    $content = '';
+    $content .= '
+                <div align="center">
+                    <h2 align="center">' . $store_name . '</h2>
+                    <div align="center">' . $store_address . '</div>
+                    <div align="center"><b>Phone No. : </b>' . $store_contact_no . '<br><br><b>Email : </b>' . $store_email . '</div>
+                </div>                    
+                <div align="left">
+                    <div style="margin-bottom:8px;"><b>Order No : </b>' . $order_idr . '</div>
+                    <div style="margin-bottom:8px;"><b>Patient Name : </b>' . $patient_name . '</div>
+                    <div style="margin-bottom:8px;"><b>Doctor Name  : </b>' . $doctor_name . '</div>
+                                                    <b>Date         : </b>' . $order_date . '  
+                </div>
+                <div align="right"><h2>
+                    <div><b>Montant Total : </b>' . $object->cur_sym . number_format(floatval($total_amount), 2, '.', ' ') . '</div></h2>
+                </div>
+                <h6 align="right">Created By ' . $created_by . '</h6>
 
-	require_once('class/pdf.php');
+            <table width="100%" border="1" cellpadding="2" cellspacing="0">
+                
+                <tr>
+                    <td width="5%"><b>Sr.</b></td>
+                    <td width="30 %"><b>Particular</b></td>
+                    <td><b>Pack</b></td>
+                    <td width="10%"><b>Mfg.</b></td>
+                    <td><b>Expiry Dt.</b></td>
+                    <td><b>MRP</b></td>
+                    <td width="5%"><b>Qty.</b></td>
+                    <td width="15%"><b>Sale Price</b></td>
+                </tr>
+    ';
 
-	$pdf = new Pdf();
-
-	$pdf->set_paper('letter', 'portrait');
-
-	$file_name = ''.$patient_name .'-' .rand() .'.pdf';
-
-	$pdf->loadHtml($html);
-	$pdf->render();
-	$pdf->stream($file_name, array("Attachment" => false));
-	exit(0);
+    $content .= generateRow();
+    $date  = date('Y-m-d');
+    $pdf_name = 'repport_for_' . $date . '.pdf';
+    $content .= '</table>';
+    $pdf->writeHTML($content);
+    ob_end_clean();
+    $pdf->Output($pdf_name, 'I');
 }
-else
-{
-	header('location:order.php');
-}
-
-?>

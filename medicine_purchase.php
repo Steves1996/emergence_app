@@ -403,12 +403,11 @@ include('header.php');
                                                         document.getElementById("medicine_id").value = "' . $_POST["medicine_id"] . '"
                                                         </script>
                                                         ';
-                                                        
                                     }
 
                                     if (isset($_GET["medicine"])) {
                                         $medicine_id = $object->convert_data(trim($_GET["medicine"]), 'decrypt');
-                                        
+
                                         echo '
                                                         <script>
                                                         document.getElementById("medicine_id").value = "' . $medicine_id . '"
@@ -432,7 +431,6 @@ include('header.php');
                                                         document.getElementById("supplier_id").value = "1"
                                                         </script>
                                                         ';
-                                                        
                                     }
                                     ?>
                                     <label for="supplier_id">Nom du fournisseur</label>
@@ -530,7 +528,7 @@ include('header.php');
                     </form>
                 </div>
             </div>
-            
+
             <script>
                   let mySelect = new vanillaSelectBox('#medicine_id', {
                     maxWidth: 600,
@@ -548,30 +546,30 @@ include('header.php');
                         form_data.append('action', 'fetch_medicine_data');
                         fetch('product.php', {
 
-                            method: "POST",
+                        method: "POST",
 
-                            body: form_data
+                        body: form_data
 
-                        }).then(function(response) {
+                    }).then(function(response) {
 
-                            return response.json();
+                        return response.json();
 
-                        }).then(function(responseData) {
-                            var purchasePrice = document.getElementById("medicine_purchase_price_per_unit");
-                            var salePrice = document.getElementById("medicine_sale_price_per_unit");
-                            var codeBarre = document.getElementById("medicine_batch_no");
-                            var monthExpiration = document.getElementById("medicine_expired_month");
-                            var yearExpiration = document.getElementById("medicine_expired_year");
-                            purchasePrice.value = responseData.medicine_purchase_price_per_unit;
-                            salePrice.value = responseData.medicine_sale_price_per_unit;
-                            codeBarre.value = responseData.medicine_batch_no;
-                            monthExpiration.value = responseData.medicine_expired_month;
-                            yearExpiration.value = responseData.medicine_expired_year;
+                    }).then(function(responseData) {
+                        var purchasePrice = document.getElementById("medicine_purchase_price_per_unit");
+                        var salePrice = document.getElementById("medicine_sale_price_per_unit");
+                        var codeBarre = document.getElementById("medicine_batch_no");
+                        var monthExpiration = document.getElementById("medicine_expired_month");
+                        var yearExpiration = document.getElementById("medicine_expired_year");
+                        purchasePrice.value = responseData.medicine_purchase_price_per_unit;
+                        salePrice.value = responseData.medicine_sale_price_per_unit;
+                        codeBarre.value = responseData.medicine_batch_no;
+                        monthExpiration.value = responseData.medicine_expired_month;
+                        yearExpiration.value = responseData.medicine_expired_year;
 
-                        });
+                    });
 
-            }
-        </script>
+                }
+            </script>
             <?php
         } else if ($_GET["action"] == 'edit') {
             $medicine_purchase_id = $object->convert_data(trim($_GET["code"]), 'decrypt');
@@ -788,8 +786,10 @@ include('header.php');
                         <i class="fas fa-table me-1"></i> Gestion des medicaments achetés
                     </div>
                     <div class="col col-md-6" align="right">
-                        <a href="medicine_purchase.php?action=add&code=<?php echo $object->convert_data('add'); ?>" class="btn btn-success btn-sm">Ajouter un entre stock</a>
+                        <a href="medicine_purchase.php?action=add&code=<?php echo $object->convert_data('add'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> un entre stock</a>
+                        <a href="medicine_purchase_print_pdf.php" class="btn-warning btn btn-sm" target="_blank"><i class="fa fa-file-pdf"></i>Print</a>
                     </div>
+
                 </div>
             </div>
             <form class="card-body" method="POST">
@@ -802,11 +802,9 @@ include('header.php');
                         <input type="date" name="to_date" id="to_date" class="form-control" placeholder="Form Date" value="<?php echo $toDate ?>">
                     </div>
                     <div class="col-md-2">
-                        <button type="submit" name="submit" class="btn btn-primary">Filter medicine</button>
+                        <button type="submit" name="submit" class="btn btn-primary"><i class="bi bi-funnel"></i>Filter medicine</button>
                     </div>
-                    <div class="col-md-2">
-                        <button type="button" onclick="Convert_HTML_To_PDF();" class="btn btn-primary">Imprimer</button>
-                    </div>
+
                 </div>
             </form>
             <div class="card-body">
@@ -821,7 +819,7 @@ include('header.php');
                             <th>Prix de vente</th>
                             <th>Status</th>
                             <th>Added On</th>
-                                                <!--<th>Updated On</th>!-->
+                            <!--<th>Updated On</th>!-->
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -835,7 +833,7 @@ include('header.php');
                             <th>Prix de vente</th>
                             <th>Status</th>
                             <th>Added On</th>
-                                                <!--<th>Updated On</th>!-->
+                            <!--<th>Updated On</th>!-->
                             <th>Action</th>
                         </tr>
                     </tfoot>
@@ -855,7 +853,7 @@ include('header.php');
                                                 <td>' . $row["supplier_name"] . '</td>
                                                 <td>' . $row["available_quantity"] . '</td>
                                                 <td>' . $row["medicine_expired_month"] . '/' . $row["medicine_expired_year"] . '</td>
-                                                <td>' . $object->cur_sym . number_format($row["medicine_sale_price_per_unit"],0) . '</td>
+                                                <td>' . $object->cur_sym . number_format($row["medicine_sale_price_per_unit"], 0) . '</td>
                                                 <td>' . $medicine_purchase_status . '</td>
                                                 <td>' . $row["medicine_purchase_datetime"] . '</td>
                                                 <td>
@@ -871,9 +869,6 @@ include('header.php');
             </div>
         </div>
         <script>
-            
-           
-
             function delete_data(code, status, id) {
                 var new_status = 'Enable';
                 if (status == 'Enable') {
