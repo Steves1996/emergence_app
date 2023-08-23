@@ -19,6 +19,8 @@ $where_date = "";
 if (isset($_POST['submit'])) {
     $from_date = $_POST['from_date'];
     $to_date = $_POST['to_date'];
+    $_SESSION['from_date'] = $from_date; 
+    $_SESSION['to_date'] = $to_date;
 
     $fromDate = $from_date;
     $toDate = $to_date;
@@ -86,6 +88,7 @@ include('header.php');
                         <th>date de vente</th>
                         <th>Vendeur</th>
                         <th>Quantite vendu</th>
+                        <th>Prix unitaire</th>
                         <th>Prix total</th>
                     </tr>
                 </thead>
@@ -95,6 +98,7 @@ include('header.php');
                         <th>date de vente</th>
                         <th>Vendeur</th>
                         <th>Quantite vendu</th>
+                        <th>Prix unitaire</th>
                         <th>Prix total</th>
                     </tr>
                 </tfoot>
@@ -103,6 +107,7 @@ include('header.php');
                     $TotalAmount = 0;
                     foreach ($result as $row) {
                         $TotalAmount += $row["medicine_price"];
+                        $totalAmountProduct = $row["medicine_quantity"]*$row["medicine_price"];
                         echo '
                                             <tr>
                                                 <td>' . $row["medicine_name"] . '</td>
@@ -110,6 +115,7 @@ include('header.php');
                                                 <td>' . $row["user_name"] . '</td>
                                                 <td>' . $row["medicine_quantity"] . '</td>
                                                 <td>' . $row["medicine_price"] . '</td>
+                                                <td>' . $object->cur_sym.number_format($totalAmountProduct, 0) . '</td>
                                             </tr>
                                             ';
                     }

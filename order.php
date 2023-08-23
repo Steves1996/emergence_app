@@ -409,7 +409,7 @@ include('header.php');
                                 <thead>
                                     <tr>
                                         <th width="30%">Medicine</th>
-                                        <th width="10%">Pack Type</th>
+                                        <th width="10%">Qte</th>
                                         <th width="5%">Mfg</th>
                                         <th width="10%">Batch No.</th>
                                         <th width="10%">Exipry Date</th>
@@ -520,19 +520,19 @@ include('header.php');
                         }).then(function(responseData) {
                             console.log(responseData);
                             mySelect.empty();
-                            // mySelect.disableItems(med_id);
-                            var no = random_number(1, 99999);
-                            var html = '<tr id="' + no + '">';
-                            html += '<td>' + responseData.medicine_name + '<input type="hidden" name="medicine_id[]" value="' + responseData.medicine_id + '" /><input type="hidden" name="medicine_purchase_id[]" value="' + responseData.medicine_purchase_id + '" /></td>';
-                            html += '<td>' + responseData.medicine_pack_data + '</td>';
-                            html += '<td>' + responseData.medicine_company + '</td>';
-                            html += '<td>' + responseData.medicine_batch_no + '</td>';
-                            html += '<td>' + responseData.medicine_expiry_date + '</td>';
-                            html += '<td><input type="text" name="medicine_quantity[]" class="form-control medicine_quantity" placeholder="Quantity" value="1" min="1" onblur="check_qty(this); calculate_total();" data-number="' + no + '" /></td>';
-                            html += '<td><input type="text" name="medicine_price[]" class="form-control item_unit_price" value="' + responseData.medicine_sale_price_per_unit + '" onblur="calculate_total();" data-number="' + no + '"/></td>';
-                            html += '<td><span class="item_total_price" id="item_total_price_' + no + '">' + responseData.medicine_sale_price_per_unit + '</span></td>';
-                            html += '<td><button type="button" name="remove_item" class="btn btn-danger btn-sm" onclick="deleteRow(this)"><i class="fas fa-minus"></i></button></td>';
-                            html += '</tr>';
+                                // mySelect.disableItems(med_id);
+                                var no = random_number(1, 99999);
+                                var html = '<tr id="' + no + '">';
+                                html += '<td>' + responseData.medicine_name + '<input type="hidden" name="medicine_id[]" value="' + responseData.medicine_id + '" /><input type="hidden" name="medicine_purchase_id[]" value="' + responseData.medicine_purchase_id + '" /></td>';
+                                html += '<td>' + responseData.available_quantity + '</td>';
+                                html += '<td>' + responseData.medicine_company + '</td>';
+                                html += '<td>' + responseData.medicine_batch_no + '</td>';
+                                html += '<td>' + responseData.medicine_expiry_date + '</td>';
+                                html += '<td><input type="text" name="medicine_quantity[]" class="form-control medicine_quantity" placeholder="Quantity" value="1" min="1" onblur="check_qty(this); calculate_total();" data-number="' + no + '" /></td>';
+                                html += '<td><input type="text" name="medicine_price[]" class="form-control item_unit_price" value="' + responseData.medicine_sale_price_per_unit + '" onblur="calculate_total();" data-number="' + no + '"/></td>';
+                                html += '<td><span class="item_total_price" id="item_total_price_' + no + '">' + responseData.medicine_sale_price_per_unit + '</span></td>';
+                                html += '<td><button type="button" name="remove_item" class="btn btn-danger btn-sm" onclick="deleteRow(this)"><i class="fas fa-minus"></i></button></td>';
+                                html += '</tr>';
 
                             var data = document.getElementById('order_item_area');
 
@@ -633,13 +633,24 @@ include('header.php');
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row mb-3">
+                            <!-- <div class="col-md-6">
+                                <select class="form-control" id="add_medicine_id">
+                                    <?php echo $object->get_medicine_array(); ?>
+                                </select>
+                                &nbsp;
+                                <button type="button" name="add_medicine" id="add_medicine" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Ajouter un medicament</button>
+                            </div>
+                            <div class="col-md-6">
 
+                            </div> -->
+                        </div>
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
                                                 <th width="30%">Medicine</th>
-                                                <th width="10%">Pack Type</th>
+                                                <th width="10%">Qte</th>
                                                 <th width="5%">Mfg</th>
                                                 <th width="10%">Batch No.</th>
                                                 <th width="10%">Exipry Date</th>
@@ -709,8 +720,75 @@ include('header.php');
 
                     <script>
                         function _(element) {
-                            return document.getElementById(element);
-                        }
+                    return document.getElementById(element);
+                }
+
+                let mySelect = new vanillaSelectBox('#add_medicine_id', {
+                    maxWidth: 600,
+                    maxHeight: 400,
+                    minWidth: 500,
+                    search: true,
+                    placeHolder: "Filter Medicine",
+                    minOptionWidth: 500,
+                    maxOptionWidth: 600
+                });
+
+                _('add_medicine').onclick = function() {
+                    var med_id = _('add_medicine_id').value;
+                    console.log(med_id);
+                    if (med_id == '') {
+                        _('msg_area').innerHTML = '<div class="alert alert-danger">Please Select Medicine</div>';
+                        setTimeout(function() {
+                            _('msg_area').innerHTML = '';
+                        }, 5000);
+                    } else {
+                        var form_data = new FormData();
+                        form_data.append('med_id', med_id);
+                        form_data.append('action', 'fetch_medicine_data');
+                        fetch('action.php', {
+
+                            method: "POST",
+
+                            body: form_data
+
+                        }).then(function(response) {
+
+                            return response.json();
+
+                        }).then(function(responseData) {
+                            console.log(responseData);
+                            mySelect.empty();
+                                // mySelect.disableItems(med_id);
+                                var no = random_number(1, 99999);
+                                var html = '<tr id="' + no + '">';
+                                html += '<td>' + responseData.medicine_name + '<input type="hidden" name="medicine_id[]" value="' + responseData.medicine_id + '" /><input type="hidden" name="medicine_purchase_id[]" value="' + responseData.medicine_purchase_id + '" /></td>';
+                                html += '<td>' + responseData.available_quantity + '</td>';
+                                html += '<td>' + responseData.medicine_company + '</td>';
+                                html += '<td>' + responseData.medicine_batch_no + '</td>';
+                                html += '<td>' + responseData.medicine_expiry_date + '</td>';
+                                html += '<td><input type="text" name="medicine_quantity[]" class="form-control medicine_quantity" placeholder="Quantity" value="1" min="1" onblur="check_qty(this); calculate_total();" data-number="' + no + '" /></td>';
+                                html += '<td><input type="text" name="medicine_price[]" class="form-control item_unit_price" value="' + responseData.medicine_sale_price_per_unit + '" onblur="calculate_total();" data-number="' + no + '"/></td>';
+                                html += '<td><span class="item_total_price" id="item_total_price_' + no + '">' + responseData.medicine_sale_price_per_unit + '</span></td>';
+                                html += '<td><button type="button" name="remove_item" class="btn btn-danger btn-sm" onclick="deleteRow(this)"><i class="fas fa-minus"></i></button></td>';
+                                html += '</tr>';
+
+                                var data = document.getElementById('order_item_area');
+
+                                data.insertRow().innerHTML = html;
+
+                                calculate_total();
+                            
+
+                        });
+                    }
+
+                }
+                
+                function random_number(min, max) {
+                    min = Math.ceil(min);
+                    max = Math.floor(max);
+                    return Math.floor(Math.random() * (max - min + 1)) + min;
+                }
 
                         function calculate_total() {
                             var qty = document.getElementsByClassName('medicine_quantity');

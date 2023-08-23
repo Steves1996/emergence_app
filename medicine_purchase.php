@@ -391,10 +391,11 @@ include('header.php');
                     <form method="post">
                         <div class="row">
                             <div class="col-md-6">
+                                    <label for="medicine_id">Nom du medicament</label>
                                 <div class="form-floating mb-3">
-                                    <select name="medicine_id" class="form-control" id="medicine_id" onchange="getDetailOfProduct()">
-                                        <?php echo $object->fill_medicine(); ?>
-                                    </select>
+                                <select name="medicine_id" class="form-control" id="medicine_id" onchange="getDetailOfProduct()">
+                                    <?php echo $object->fill_medicine(); ?>
+                                </select>
                                     <?php
                                     if (isset($_POST["medicine_id"])) {
                                         echo '
@@ -415,7 +416,6 @@ include('header.php');
                                     }
 
                                     ?>
-                                    <label for="medicine_id">Nom du medicament</label>
                                 </div>
                             </div>
                             <div class="col-md-6" style="visibility: hidden;">
@@ -530,12 +530,21 @@ include('header.php');
             </div>
 
             <script>
-                function getDetailOfProduct() {
-                    var data = document.getElementById('medicine_id').value;
-                    var form_data = new FormData();
-                    form_data.append('med_id', data);
-                    form_data.append('action', 'fetch_medicine_data');
-                    fetch('product.php', {
+                  let mySelect = new vanillaSelectBox('#medicine_id', {
+                    maxWidth: 600,
+                    maxHeight: 400,
+                    minWidth: 500,
+                    search: true,
+                    placeHolder: "",
+                    minOptionWidth: 500,
+                    maxOptionWidth: 600
+                });
+            function getDetailOfProduct(){
+                var data = document.getElementById('medicine_id').value;
+                var form_data = new FormData();
+                        form_data.append('med_id', data);
+                        form_data.append('action', 'fetch_medicine_data');
+                        fetch('product.php', {
 
                         method: "POST",
 

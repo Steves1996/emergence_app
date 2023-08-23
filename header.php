@@ -74,11 +74,6 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-search-location"></i></div>
                                 Rang sur comptoire
                             </a>
-
-                            <a class="nav-link" href="repport.php">
-                                <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
-                                Rapport des ventes
-                            </a>
                             <!-- <a class="nav-link" href="company.php">
                                 <div class="sb-nav-link-icon"><i class="fas fa-building"></i></div>
                                 Fabriquant
@@ -91,10 +86,15 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-pills"></i></div>
                                 Medicament
                             </a>
-
-                            <a class="nav-link" href="medicine_purchase.php">
-                                <div class="sb-nav-link-icon"><i class="fas fa-clipboard"></i></div>
-                                Entrer en stock
+                            
+                        <a class="nav-link" href="medicine_purchase.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-clipboard"></i></div>
+                            Entrer en stock
+                        </a>
+                        
+                        <a class="nav-link" href="repport.php">
+                                <div class="sb-nav-link-icon"><i class="fas fa-chart"></i></div>
+                                Rapport des ventes
                             </a>
                         <?php
                         }
