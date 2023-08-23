@@ -8,19 +8,43 @@ function generateRow()
 
 	$object = new db();
 
-	$object->query = "
-    SELECT * FROM medicine_msbs 
-    INNER JOIN category_msbs 
-    ON category_msbs.category_id = medicine_msbs.medicine_category 
-    INNER JOIN  medicine_manufacuter_company_msbs 
-    ON  medicine_manufacuter_company_msbs.medicine_manufacuter_company_id = medicine_msbs.medicine_manufactured_by 
-    INNER JOIN location_rack_msbs 
-    ON location_rack_msbs.location_rack_id = medicine_msbs.medicine_location_rack
-    ORDER BY medicine_msbs.medicine_name ASC
-	";
+	$from_date = $_SESSION['from_date_medecine'];
+    $to_date = $_SESSION['to_date_medecine'];
 
-	//use for MySQLi OOP
-	$result = $object->get_result();
+	if(isset($from_date) && isset($to_date)){
+
+		$where_date = "WHERE medicine_add_datetime BETWEEN '" . $from_date . "' AND '" . $to_date . "' ";
+
+		$object->query = "
+		SELECT * FROM medicine_msbs 
+		INNER JOIN category_msbs 
+		ON category_msbs.category_id = medicine_msbs.medicine_category 
+		INNER JOIN  medicine_manufacuter_company_msbs 
+		ON  medicine_manufacuter_company_msbs.medicine_manufacuter_company_id = medicine_msbs.medicine_manufactured_by 
+		INNER JOIN location_rack_msbs 
+		ON location_rack_msbs.location_rack_id = medicine_msbs.medicine_location_rack
+		$where_date
+		ORDER BY medicine_msbs.medicine_name ASC
+		";
+
+		$result = $object->get_result();
+	}else{
+		$object->query = "
+		SELECT * FROM medicine_msbs 
+		INNER JOIN category_msbs 
+		ON category_msbs.category_id = medicine_msbs.medicine_category 
+		INNER JOIN  medicine_manufacuter_company_msbs 
+		ON  medicine_manufacuter_company_msbs.medicine_manufacuter_company_id = medicine_msbs.medicine_manufactured_by 
+		INNER JOIN location_rack_msbs 
+		ON location_rack_msbs.location_rack_id = medicine_msbs.medicine_location_rack
+		ORDER BY medicine_msbs.medicine_name ASC
+		";
+
+		//use for MySQLi OOP
+		$result = $object->get_result();
+	}
+
+	
 
 	$count_medicine = 0;
 

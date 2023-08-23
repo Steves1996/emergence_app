@@ -12,10 +12,10 @@ function generateRow()
     $from_date = $_SESSION['from_date'];
     $to_date = $_SESSION['to_date'];
 
-    print_r('date session 1 : '); 
-    print_r( $from_date); 
-    print_r('date session 2 : '); 
-    print_r($to_date);
+    // print_r('date session 1 : '); 
+    // print_r( $from_date); 
+    // print_r('date session 2 : '); 
+    // print_r($to_date);
 
     if(isset($from_date) && isset($to_date)){
         $where_date = "WHERE om.order_added_on BETWEEN '" . $from_date . "' AND '" . $to_date . "' ";

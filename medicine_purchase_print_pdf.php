@@ -8,18 +8,38 @@ function generateRow()
 
     $object = new db();
 
+    $from_date = $_SESSION['from_date_purchase'];
+    $to_date = $_SESSION['to_date_purchase'];
 
-    $object->query = "
-    SELECT * FROM medicine_purchase_msbs 
-    INNER JOIN medicine_msbs 
-    ON medicine_msbs.medicine_id = medicine_purchase_msbs.medicine_id 
-    INNER JOIN  supplier_msbs 
-    ON  supplier_msbs.supplier_id = medicine_purchase_msbs.supplier_id 
-    ORDER BY medicine_purchase_msbs.medicine_purchase_id DESC
-	";
+    if(isset($from_date) && isset($to_date)){
+        $where_date = "WHERE medicine_purchase_datetime  BETWEEN '" . $from_date . "' AND '" . $to_date . "' ";
 
-    //use for MySQLi OOP
-    $result = $object->get_result();
+        $object->query = "
+        SELECT * FROM medicine_purchase_msbs 
+        INNER JOIN medicine_msbs 
+        ON medicine_msbs.medicine_id = medicine_purchase_msbs.medicine_id 
+        INNER JOIN  supplier_msbs 
+        ON  supplier_msbs.supplier_id = medicine_purchase_msbs.supplier_id 
+        " . $where_date . "
+        ORDER BY medicine_purchase_msbs.medicine_purchase_id DESC
+        ";
+
+        $result = $object->get_result();
+    }else{
+        $object->query = "
+        SELECT * FROM medicine_purchase_msbs 
+        INNER JOIN medicine_msbs 
+        ON medicine_msbs.medicine_id = medicine_purchase_msbs.medicine_id 
+        INNER JOIN  supplier_msbs 
+        ON  supplier_msbs.supplier_id = medicine_purchase_msbs.supplier_id 
+        ORDER BY medicine_purchase_msbs.medicine_purchase_id DESC
+        ";
+        
+        //use for MySQLi OOP
+        $result = $object->get_result();
+    }
+
+
 
     $count_medicine = 0;
 
