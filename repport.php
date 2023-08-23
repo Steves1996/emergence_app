@@ -19,6 +19,8 @@ $where_date = "";
 if (isset($_POST['submit'])) {
     $from_date = $_POST['from_date'];
     $to_date = $_POST['to_date'];
+    $_SESSION['from_date'] = $from_date; 
+    $_SESSION['to_date'] = $to_date;
 
     $fromDate = $from_date;
     $toDate = $to_date;

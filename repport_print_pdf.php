@@ -8,20 +8,54 @@ function generateRow()
 
     $object = new db();
 
-    $object->query = "
-    SELECT mm.medicine_name, oim.medicine_quantity, oim.medicine_price, om.order_added_on, um.user_name
-    FROM `order_item_msbs` oim 
-    JOIN medicine_msbs mm 
-    on oim.medicine_id = mm.medicine_id
-    JOIN order_msbs om
-    ON oim.order_id = om.order_id
-    JOIN user_msbs um
-    ON om.order_created_by = um.user_id
-	";
+    
+    $from_date = $_SESSION['from_date'];
+    $to_date = $_SESSION['to_date'];
+
+    print_r('date session 1 : '); 
+    print_r( $from_date); 
+    print_r('date session 2 : '); 
+    print_r($to_date);
+
+    if(isset($from_date) && isset($to_date)){
+        $where_date = "WHERE om.order_added_on BETWEEN '" . $from_date . "' AND '" . $to_date . "' ";
+
+        $object->query = "
+        SELECT mm.medicine_name, oim.medicine_quantity, oim.medicine_price, om.order_added_on, um.user_name
+        FROM `order_item_msbs` oim 
+        JOIN medicine_msbs mm 
+        on oim.medicine_id = mm.medicine_id
+        JOIN order_msbs om
+        ON oim.order_id = om.order_id
+        JOIN user_msbs um
+        ON om.order_created_by = um.user_id
+        $where_date
+        ";
+    
+        //use for MySQLi OOP
+        $result = $object->get_result();
+        
+        print_r('result 1'); 
+        print_r($result);
+    }else{
+        $object->query = "
+        SELECT mm.medicine_name, oim.medicine_quantity, oim.medicine_price, om.order_added_on, um.user_name
+        FROM `order_item_msbs` oim 
+        JOIN medicine_msbs mm 
+        on oim.medicine_id = mm.medicine_id
+        JOIN order_msbs om
+        ON oim.order_id = om.order_id
+        JOIN user_msbs um
+        ON om.order_created_by = um.user_id
+        ";
+        $result = $object->get_result();
+        print_r('result 2'); 
+        print_r($result);
+
+    }
 
     //use for MySQLi OOP
-    $result = $object->get_result();
-
+   
     $count_medicine = 0;
     $TotalAmount = 0;
 
