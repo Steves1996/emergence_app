@@ -63,14 +63,14 @@ $object->query = "
         SUM(oim.medicine_quantity) as total_quantity, 
         SUM(oim.medicine_price * oim.medicine_quantity) as total_sales,
         SUM(om.reduction) as total_reduction,
-        SUM(om.amount_not_reduction) as total_amount_not_reduction,
-        SUM(om.order_total_amount) as total_order_amount
+        om.amount_not_reduction as total_amount_not_reduction,
+        om.order_total_amount as total_order_amount
     FROM order_item_msbs oim 
     JOIN medicine_msbs mm ON oim.medicine_id = mm.medicine_id
     JOIN order_msbs om ON oim.order_id = om.order_id
     JOIN user_msbs um ON om.order_created_by = um.user_id
     $where_clause
-    GROUP BY DATE(om.order_added_on)
+    GROUP BY om.order_id
     ORDER BY order_date DESC
 ";
 
@@ -98,7 +98,7 @@ foreach ($result as $row) {
     $pdf->Cell(30, 6, $row["order_date"], 1, 0, 'C');
     $pdf->Cell(40, 6, $row["total_quantity"], 1, 0, 'C');
     $pdf->Cell(40, 6, number_format($row["total_sales"], 0) . ' XAF', 1, 0, 'R');
-    $pdf->Cell(30, 6, number_format($row["total_reduction"], 0) . ' XAF', 1, 0, 'R');
+    $pdf->Cell(30, 6, number_format($row["total_reduction"], 0) . ' %', 1, 0, 'R');
     $pdf->Cell(40, 6, number_format($row["total_order_amount"], 0) . ' XAF', 1, 1, 'R');
 }
 
@@ -119,14 +119,14 @@ $object->query = "
         SUM(oim.medicine_quantity) as total_quantity, 
         SUM(oim.medicine_price * oim.medicine_quantity) as total_sales,
         SUM(om.reduction) as total_reduction,
-        SUM(om.amount_not_reduction) as total_amount_not_reduction,
-        SUM(om.order_total_amount) as total_order_amount
+        om.amount_not_reduction as total_amount_not_reduction,
+        om.order_total_amount as total_order_amount
     FROM order_item_msbs oim 
     JOIN medicine_msbs mm ON oim.medicine_id = mm.medicine_id
     JOIN order_msbs om ON oim.order_id = om.order_id
     JOIN user_msbs um ON om.order_created_by = um.user_id
     $where_clause
-    GROUP BY DATE(om.order_added_on)
+    GROUP BY om.order_id
     ORDER BY order_date DESC
 ";
 
@@ -158,7 +158,7 @@ foreach ($results as $row) {
         JOIN order_msbs om ON oim.order_id = om.order_id
         JOIN user_msbs um ON om.order_created_by = um.user_id
         $details_where_clause
-        ORDER BY om.order_added_on DESC
+        ORDER BY om.order_id DESC
     ";
     $details = $object->get_result();
 

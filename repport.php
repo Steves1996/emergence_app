@@ -70,14 +70,14 @@ $object->query = "
         SUM(oim.medicine_quantity) as total_quantity, 
         SUM(oim.medicine_price * oim.medicine_quantity) as total_sales,
         SUM(om.reduction) as total_reduction,
-        SUM(om.amount_not_reduction) as total_amount_not_reduction,
-        SUM(om.order_total_amount) as total_order_amount
+        om.amount_not_reduction as total_amount_not_reduction,
+        om.order_total_amount as total_order_amount
     FROM order_item_msbs oim 
     JOIN medicine_msbs mm ON oim.medicine_id = mm.medicine_id
     JOIN order_msbs om ON oim.order_id = om.order_id
     JOIN user_msbs um ON om.order_created_by = um.user_id
     $where_clause
-    GROUP BY DATE(om.order_added_on)
+    GROUP BY om.order_id
     ORDER BY order_date DESC
 ";
 
