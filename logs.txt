@@ -1,0 +1,74 @@
+[2025-02-27 13:04:50] Données reçues du formulaire :
+[2025-02-27 13:04:50] Patient Name: dsfdsfsd
+[2025-02-27 13:04:50] Birth Date: 2025-02-06
+[2025-02-27 13:04:50] Hospitalisation Date: 2025-02-25
+[2025-02-27 13:04:50] Phone: 77777777
+[2025-02-27 13:04:50] Doctor Name: retertre
+[2025-02-27 13:04:50] Order Total Amount: 454545
+[2025-02-27 13:04:50] Reduction: 1
+[2025-02-27 13:04:50] Amount Without Reduction: 454546.00
+[2025-02-27 13:04:50] Order Created By: 1
+[2025-02-27 13:04:50] Requête SQL préparée : 
+        INSERT INTO order_pro_msbs 
+        (patient_name, birth_date, hospitalisation_date, phone, doctor_name, 
+         order_total_amount, reduction, amount_not_reduction, order_created_by, order_status, 
+         order_added_on, order_updated_on) 
+        VALUES 
+        (:patient_name, :birth_date, :hospitalisation_date, :phone, :doctor_name, 
+         :order_total_amount, :reduction, :amount_not_reduction, :order_created_by, :order_status, 
+         :current_date, :current_date)
+    
+[2025-02-27 13:04:50] Données à insérer : Array
+(
+    [:patient_name] => dsfdsfsd
+    [:birth_date] => 2025-02-06
+    [:hospitalisation_date] => 2025-02-25
+    [:phone] => 77777777
+    [:doctor_name] => retertre
+    [:order_total_amount] => 454545
+    [:reduction] => 1
+    [:amount_not_reduction] => 454546.00
+    [:order_created_by] => 1
+    [:order_status] => Enable
+    [:current_date] => 2025-02-27 13:04:50
+)
+
+[2025-02-27 13:04:50] Données result : 
+[2025-02-27 13:04:50] Erreur lors de l'exécution de la requête.
+[2025-02-27 13:05:20] Données reçues du formulaire :
+[2025-02-27 13:05:20] Patient Name: dsfdsfsd
+[2025-02-27 13:05:20] Birth Date: 2025-02-06
+[2025-02-27 13:05:20] Hospitalisation Date: 2025-02-25
+[2025-02-27 13:05:20] Phone: 77777777
+[2025-02-27 13:05:20] Doctor Name: retertre
+[2025-02-27 13:05:20] Order Total Amount: 454545
+[2025-02-27 13:05:20] Reduction: 1
+[2025-02-27 13:05:20] Amount Without Reduction: 454546.00
+[2025-02-27 13:05:20] Order Created By: 1
+[2025-02-27 13:05:20] Requête SQL préparée : 
+        INSERT INTO order_pro_msbs 
+        (patient_name, birth_date, hospitalisation_date, phone, doctor_name, 
+         order_total_amount, reduction, amount_not_reduction, order_created_by, order_status, 
+         order_added_on, order_updated_on) 
+        VALUES 
+        (:patient_name, :birth_date, :hospitalisation_date, :phone, :doctor_name, 
+         :order_total_amount, :reduction, :amount_not_reduction, :order_created_by, :order_status, 
+         :current_date, :current_date)
+    
+[2025-02-27 13:05:20] Données à insérer : Array
+(
+    [:patient_name] => dsfdsfsd
+    [:birth_date] => 2025-02-06
+    [:hospitalisation_date] => 2025-02-25
+    [:phone] => 77777777
+    [:doctor_name] => retertre
+    [:order_total_amount] => 454545
+    [:reduction] => 1
+    [:amount_not_reduction] => 454546.00
+    [:order_created_by] => 1
+    [:order_status] => Enable
+    [:current_date] => 2025-02-27 13:05:20
+)
+
+[2025-02-27 13:05:20] Données result : 
+[2025-02-27 13:05:20] Erreur lors de l'exécution de la requête.

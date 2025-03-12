@@ -29,6 +29,16 @@ $object->query = "
 
 $medicine_result = $object->get_result();
 
+$object->query = "
+	SELECT COUNT(oim.medicine_id) as nbr, mm.medicine_name 
+	from order_item_msbs oim
+	JOIN medicine_msbs mm
+	ON oim.medicine_id = mm.medicine_id
+	GROUP BY mm.medicine_id 
+	ORDER BY COUNT(oim.medicine_id) DESC LIMIT 1
+";
+
+$best_medicine_sell = $object->get_result();
 ?>
 
 <div class="container-fluid px-4">
@@ -38,34 +48,10 @@ $medicine_result = $object->get_result();
 	</ol>
 	<div class="row">
 		<div class="col-xl-3 col-md-6">
-			<div class="card bg-primary text-white mb-4">
-				<div class="card-body">
-					<h2 class="text-center"><?php echo $object->Get_total_no_of_medicine(); ?></h2>
-					<h5 class="text-center">Medicaments en stock</h5>
-				</div>
-			</div>
-		</div>
-		<div class="col-xl-3 col-md-6">
 			<div class="card bg-warning text-white mb-4">
 				<div class="card-body">
 					<h2 class="text-center"><?php echo $object->Count_outstock_medicine(); ?></h2>
 					<h5 class="text-center">Alerte stock</h5>
-				</div>
-			</div>
-		</div>
-		<div class="col-xl-3 col-md-6">
-			<div class="card bg-danger text-white mb-4">
-				<div class="card-body">
-					<h2 class="text-center"><?php echo $object->cur_sym . number_format(floatval($object->Get_total_medicine_purchase()), 0, '.', ','); ?></h2>
-					<h5 class="text-center">Total Achat</h5>
-				</div>
-			</div>
-		</div>
-		<div class="col-xl-3 col-md-6">
-			<div class="card bg-success text-white mb-4">
-				<div class="card-body">
-					<h2 class="text-center"><?php echo $object->cur_sym . number_format(floatval($object->Get_total_medicine_sale()), 0, '.', ','); ?></h2>
-					<h5 class="text-center">Total Vente</h5>
 				</div>
 			</div>
 		</div>
@@ -77,18 +63,14 @@ $medicine_result = $object->get_result();
 			<div class="card mb-4">
 				<div class="card-header">
 					<i class="fas fa-chart-area me-1"></i>
-					Status des ventes
+					Medicament le plus vendu
 				</div>
-				<div class="card-body"><canvas id="saleChart" width="100%" height="40"></canvas></div>
-			</div>
-		</div>
-		<div class="col-xl-6">
-			<div class="card mb-4">
-				<div class="card-header">
-					<i class="fas fa-chart-bar me-1"></i>
-					Numero medicament
-				</div>
-				<div class="card-body"><canvas id="stockChart" width="100%" height="40"></canvas></div>
+				<div class="card-body"><?php 
+				foreach ($best_medicine_sell as $row) {
+					echo $row['medicine_name'];
+				}
+				
+				?></div>
 			</div>
 		</div>
 	</div>

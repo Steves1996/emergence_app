@@ -45,7 +45,14 @@ if(isset($_POST["add_medicine"]))
     {
         $formdata['medicine_name'] = trim($_POST["medicine_name"]);
     }
-
+    if(empty($_POST["medicine_price"]))
+    {
+        $error .= '<li>Medicine price is required</li>';
+    }
+    else
+    {
+        $formdata['medicine_price'] = trim($_POST["medicine_price"]);
+    }
     if(empty($_POST["medicine_pack_qty"]))
     {
         $error .= '<li>Medicine Single Pack Quantity is required</li>';
@@ -69,7 +76,7 @@ if(isset($_POST["add_medicine"]))
     else
     {
         $formdata['medicine_pack_type'] = trim($_POST["medicine_pack_type"]);
-    }*/
+    }
 
     if(empty($_POST["medicine_manufactured_by"]))
     {
@@ -78,7 +85,7 @@ if(isset($_POST["add_medicine"]))
     else
     {
         $formdata['medicine_manufactured_by'] = trim($_POST["medicine_manufactured_by"]);
-    }
+    }*/
 
     if(empty($_POST["medicine_category"]))
     {
@@ -89,14 +96,14 @@ if(isset($_POST["add_medicine"]))
         $formdata['medicine_category'] = trim($_POST["medicine_category"]);
     }
 
-    if(empty($_POST["medicine_location_rack"]))
+    /*if(empty($_POST["medicine_location_rack"]))
     {
         $error .= '<li>Medicine Location Rack is required</li>';
     }
     else
     {
         $formdata['medicine_location_rack'] = trim($_POST["medicine_location_rack"]);
-    }    
+    } */  
 
     if($error == '')
     {
@@ -115,12 +122,13 @@ if(isset($_POST["add_medicine"]))
         else
         {
             $data = array(
+                ':medicine_price'               =>  $formdata['medicine_price'],
                 ':medicine_name'                =>  $formdata['medicine_name'],
                 ':medicine_pack_qty'            =>  $formdata['medicine_pack_qty'],
-                ':medicine_manufactured_by'     =>  $formdata['medicine_manufactured_by'],
+                ':medicine_manufactured_by'     =>  1,
                 ':medicine_category'            =>  $formdata['medicine_category'],
                 ':medicine_available_quantity'  =>  0,
-                ':medicine_location_rack'       =>  $formdata['medicine_location_rack'],
+                ':medicine_location_rack'       =>  1,
                 ':medicine_status'              =>  'Enable',
                 ':medicine_add_datetime'        =>  $object->now,
                 ':medicine_update_datetime'     =>  $object->now
@@ -128,8 +136,8 @@ if(isset($_POST["add_medicine"]))
 
             $object->query = "
             INSERT INTO medicine_msbs 
-            (medicine_name, medicine_pack_qty, medicine_manufactured_by, medicine_category, medicine_available_quantity, medicine_location_rack, medicine_status, medicine_add_datetime, medicine_update_datetime) 
-            VALUES (:medicine_name, :medicine_pack_qty, :medicine_manufactured_by, :medicine_category, :medicine_available_quantity, :medicine_location_rack, :medicine_status, :medicine_add_datetime, :medicine_update_datetime)
+            (medicine_name, medicine_pack_qty, medicine_manufactured_by, medicine_category, medicine_available_quantity, medicine_location_rack, medicine_status,medicine_price, medicine_add_datetime, medicine_update_datetime) 
+            VALUES (:medicine_name, :medicine_pack_qty, :medicine_manufactured_by, :medicine_category, :medicine_available_quantity, :medicine_location_rack, :medicine_status,:medicine_price, :medicine_add_datetime, :medicine_update_datetime)
             ";
 
             $object->execute($data);
@@ -152,6 +160,15 @@ if(isset($_POST["edit_medicine"]))
         $formdata['medicine_name'] = trim($_POST["medicine_name"]);
     }
 
+    if(empty($_POST["medicine_price"]))
+    {
+        $error .= '<li>Medicine Price is required</li>';
+    }
+    else
+    {
+        $formdata['medicine_price'] = trim($_POST["medicine_price"]);
+    }
+
     if(empty($_POST["medicine_pack_qty"]))
     {
         $error .= '<li>Medicine Single Pack Quantity is required</li>';
@@ -175,7 +192,7 @@ if(isset($_POST["edit_medicine"]))
     else
     {
         $formdata['medicine_pack_type'] = trim($_POST["medicine_pack_type"]);
-    }*/
+    }
 
     if(empty($_POST["medicine_manufactured_by"]))
     {
@@ -184,25 +201,17 @@ if(isset($_POST["edit_medicine"]))
     else
     {
         $formdata['medicine_manufactured_by'] = trim($_POST["medicine_manufactured_by"]);
-    }
+    }*/
 
-    if(empty($_POST["medicine_category"]))
-    {
-        $error .= '<li>Medicine Category is required</li>';
-    }
-    else
-    {
-        $formdata['medicine_category'] = trim($_POST["medicine_category"]);
-    }
 
-    if(empty($_POST["medicine_location_rack"]))
+   /* if(empty($_POST["medicine_location_rack"]))
     {
         $error .= '<li>Medicine Location Rack is required</li>';
     }
     else
     {
         $formdata['medicine_location_rack'] = trim($_POST["medicine_location_rack"]);
-    }
+    }*/
 
     if($error == '')
     {
@@ -224,11 +233,14 @@ if(isset($_POST["edit_medicine"]))
         else
         {
             $data = array(
+                ':medicine_price'                =>  $formdata['medicine_price'],
                 ':medicine_name'                =>  $formdata['medicine_name'],
                 ':medicine_pack_qty'            =>  $formdata['medicine_pack_qty'],
-                ':medicine_manufactured_by'     =>  $formdata['medicine_manufactured_by'],
-                ':medicine_category'            =>  $formdata['medicine_category'],
-                ':medicine_location_rack'       =>  $formdata['medicine_location_rack'],
+                //':medicine_manufactured_by'     =>  $formdata['medicine_manufactured_by'],
+                ':medicine_manufactured_by'     =>  1,
+                ':medicine_category'            =>  1,
+                //':medicine_location_rack'       =>  $formdata['medicine_location_rack'],
+                ':medicine_location_rack'       =>  1,
                 ':medicine_update_datetime'     =>  $object->now,
                 ':medicine_id'                  =>  $medicine_id
             );
@@ -237,7 +249,8 @@ if(isset($_POST["edit_medicine"]))
 
             $object->query = "
             UPDATE medicine_msbs 
-            SET medicine_name = :medicine_name, 
+            SET medicine_name = :medicine_name,  
+            medicine_price = :medicine_price,
             medicine_pack_qty = :medicine_pack_qty,
             medicine_manufactured_by = :medicine_manufactured_by, 
             medicine_category = :medicine_category, 
@@ -318,20 +331,8 @@ include('header.php');
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3">
-                                                    <select name="medicine_manufactured_by" class="form-control" id="medicine_manufactured_by">
-                                                        <?php echo $object->fill_company(); ?>
-                                                    </select>
-                                                    <?php
-                                                    if(isset($_POST["medicine_manufactured_by"]))
-                                                    {
-                                                        echo '
-                                                        <script>
-                                                        document.getElementById("medicine_manufactured_by").value = "'.$_POST["medicine_manufactured_by"].'"
-                                                        </script>
-                                                        ';
-                                                    }
-                                                    ?>
-                                                    <label for="medicine_manufactured_by">Medicament fabrique par</label>
+                                                    <input class="form-control" id="medicine_price" type="number" placeholder="Enter Medicine price" name="medicine_price" value="<?php if(isset($_POST["medicine_price"])) echo $_POST["medicine_price"]; ?>" />
+                                                    <label for="medicine_price">Prix de vente du Medicament</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -361,33 +362,14 @@ include('header.php');
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-floating mb-3">
-                                                    <select name="medicine_location_rack" class="form-control" id="medicine_location_rack">
-                                                        <?php echo $object->fill_location_rack(); ?>
-                                                    </select>
-                                                    <?php
-                                                    if(isset($_POST["medicine_location_rack"]))
-                                                    {
-                                                        echo '
-                                                        <script>
-                                                        document.getElementById("medicine_location_rack").value = "'.$_POST["medicine_location_rack"].'"
-                                                        </script>
-                                                        ';
-                                                    }
-                                                    ?>
-                                                    <label for="medicine_location_rack">Rang sur comptoir</label>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="mt-4 mb-0">
                                             <input type="submit" name="add_medicine" class="btn btn-success" value="Add" />
                                         </div>
                                     </form>
                                 </div>
                             </div>
-                        <?php
+
+<?php
                             }
                             else if($_GET["action"] == 'edit')
                             {
@@ -431,13 +413,11 @@ include('header.php');
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <div class="form-floating mb-3">
-                                                        <select name="medicine_manufactured_by" class="form-control" id="medicine_manufactured_by">
-                                                            <?php echo $object->fill_company(); ?>
-                                                        </select>
-                                                        <label for="medicine_manufactured_by">Medicament fabrique par</label>
-                                                    </div>
+                                                <div class="form-floating mb-3">
+                                                    <input class="form-control" id="medicine_price" type="number" placeholder="Enter Medicine price" name="medicine_price" value="<?php if(isset($_POST["medicine_price"])) echo $_POST["medicine_price"]; ?>" />
+                                                    <label for="medicine_price">Prix de vente du Medicament</label>
                                                 </div>
+                                            </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
@@ -452,16 +432,6 @@ include('header.php');
                                                             <?php echo $object->fill_category(); ?>
                                                         </select>
                                                         <label for="medicine_category">Categorie</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-floating mb-3">
-                                                        <select name="medicine_location_rack" class="form-control" id="medicine_location_rack">
-                                                            <?php echo $object->fill_location_rack(); ?>
-                                                        </select>
-                                                        <label for="medicine_location_rack">Rang sur comptoir</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -535,6 +505,7 @@ include('header.php');
                                         </div>
                                         <div class="col col-md-6" align="right">
                                             <a href="medicine.php?action=add&code=<?php echo $object->convert_data('add'); ?>" class="btn btn-success btn-sm">Add</a>
+                                            <a href="medecine_print.php" target="_blank" class="btn btn-primary btn-sm">Imprimer</a>
                                         </div>
                                     </div>
                                 </div>
@@ -546,7 +517,7 @@ include('header.php');
                                                 <th>Fabriquant</th>
                                                 <th>Alerte quantite</th>
                                                 <th>Quantite disponible</th>
-                                                <th>Rang sur comptoir</th>
+                                                <th>Prix de vente</th>
                                                 <th>Status</th>
                                                 <th>Date d'ajout</th>
                                                 <th>Date de mis a jour</th>
@@ -559,7 +530,7 @@ include('header.php');
                                                 <th>Fabriquant</th>
                                                 <th>Alerte quantite</th>
                                                 <th>Quantite disponible</th>
-                                                <th>Rang sur comptoir</th>
+                                                <th>Prix de vente</th>
                                                 <th>Status</th>
                                                 <th>Date d'ajout</th>
                                                 <th>Date de mis a jour</th>
@@ -585,7 +556,7 @@ include('header.php');
                                                 <td>'.$row["company_name"].'</td>
                                                 <td>'.$row["medicine_pack_qty"].'</td>
                                                 <td>'.$row["medicine_available_quantity"].'</td>
-                                                <td>'.$row["location_rack_name"].'</td>
+                                                <td>'.$row["medicine_price"].'</td>
                                                 <td>'.$medicine_status.'</td>
                                                 <td>'.$row["medicine_add_datetime"].'</td>
                                                 <td>'.$row["medicine_update_datetime"].'</td>
@@ -618,7 +589,7 @@ include('header.php');
                                 }
                             }
 
-                            </script>
+                            </script>   
                         <?php
                         }
                         ?>

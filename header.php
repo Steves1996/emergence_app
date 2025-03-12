@@ -12,6 +12,12 @@
     <link href="<?php echo $object->base_url; ?>css/styles.css" rel="stylesheet" />
     <script src="<?php echo $object->base_url; ?>js/font-awesome-5-all.min.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- bootstrap css and js -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <!-- JS for jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="<?php echo $object->base_url; ?>css/vanillaSelectBox.css" />
     <script src="<?php echo $object->base_url; ?>js/vanillaSelectBox.js"></script>
 </head>
@@ -56,18 +62,18 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
                                 Tableau de bord
                             </a>
-                            <a class="nav-link" href="user.php">
+                            <!--<a class="nav-link" href="user.php">
                                 <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                                 Gestion des utilisateurs
-                            </a>
+                            </a> -->
                             <a class="nav-link" href="category.php">
                                 <div class="sb-nav-link-icon"><i class="fas fa-list"></i></div>
                                 Categories des medicaments
                             </a>
-                            <a class="nav-link" href="location_rack.php">
+                             <!--<a class="nav-link" href="location_rack.php">
                                 <div class="sb-nav-link-icon"><i class="fas fa-search-location"></i></div>
                                 Rang sur comptoire
-                            </a>
+                            </a>-->
                             <!-- <a class="nav-link" href="company.php">
                                 <div class="sb-nav-link-icon"><i class="fas fa-building"></i></div>
                                 Fabriquant
@@ -80,17 +86,25 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-pills"></i></div>
                                 Medicament
                             </a>
-                            
-                        <a class="nav-link" href="medicine_purchase.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-clipboard"></i></div>
-                            Entrer en stock
-                        </a>
+                        
+                        <a class="nav-link" href="repport.php">
+                                <div class="sb-nav-link-icon"><i class="fas fa-chart"></i></div>
+                                Rapport des ventes
+                            </a>
                         <?php
                         }
                         ?>
+                         <a class="nav-link" href="medicine_purchase.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-clipboard"></i></div>
+                            Entrer en stock
+                        </a>
                         <a class="nav-link" href="order.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-cash-register"></i></div>
                             Vente
+                        </a>
+                        <a class="nav-link" href="order_pro.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-cash-register"></i></div>
+                            Facture Proformat
                         </a>
                         <a class="nav-link" href="logout.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-sign-out-alt"></i></div>

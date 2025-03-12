@@ -1,5 +1,4 @@
 <?php
-
 class db
 {
 	public $base_url;
@@ -257,16 +256,23 @@ class db
 		return $output;
 	}
 
+
 	function get_medicine_array()
 	{
-		$this->query = "
+		/*$this->query = "
 		SELECT * FROM medicine_purchase_msbs 
 		INNER JOIN medicine_msbs 
 		ON medicine_msbs.medicine_id =  medicine_purchase_msbs.medicine_id 
 		WHERE medicine_purchase_msbs.medicine_purchase_status = 'Enable' 
 		AND medicine_msbs.medicine_status = 'Enable' 
-		AND medicine_purchase_msbs.available_quantity > 0 
+		AND medicine_purchase_msbs.available_quantity >= 0 
 		ORDER BY medicine_purchase_id ASC
+		";*/
+
+		$this->query = "
+		SELECT * FROM medicine_msbs 
+		WHERE medicine_msbs.medicine_available_quantity >= 0 
+		ORDER BY medicine_msbs.medicine_id ASC
 		";
 
 		$result = $this->get_result();
@@ -277,7 +283,7 @@ class db
 		{
 			//$output .= '<option value="'.$row["medicine_purchase_id"].'">'.$row["medicine_name"].' | Available Quantity - '.$row["available_quantity"].' | Batch No. - '.$row["medicine_batch_no"].' | Price - '.$row["medicine_sale_price_per_unit"].'</option>';
 
-			$output .= '<option value="'.$row["medicine_purchase_id"].'">'.$row["medicine_name"].' | Batch No. - '.$row["medicine_batch_no"].'</option>';
+			$output .= '<option value="'.$row["medicine_id"].'">'.$row["medicine_name"].'</option>';
 		}
 		return $output;
 	}
@@ -693,6 +699,24 @@ class db
 			  medicine_purchase_id int(11) NOT NULL,
 			  medicine_quantity int(11) NOT NULL,
 			  medicine_price decimal(12,2) NOT NULL
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+			 CREATE TABLE order_item_pro_msbs (
+			  order_item_id int(11) NOT NULL,
+			  order_id int(11) NOT NULL,
+			  medicine_id int(11) NOT NULL,
+			  medicine_purchase_id int(11) NOT NULL,
+			  medicine_quantity int(11) NOT NULL,
+			  medicine_price decimal(12,2) NOT NULL
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+			CREATE TABLE order_pro_msbs (
+			  order_id int(11) NOT NULL,
+			  patient_name varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+			  doctor_name varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+			  order_total_amount decimal(12,2) NOT NULL,
+			  order_created_by int(11) NOT NULL,
+			  order_status enum('Enable','Disable') COLLATE utf8_unicode_ci NOT NULL,
+			  order_added_on datetime NOT NULL,
+			  order_updated_on datetime NOT NULL
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 			CREATE TABLE order_msbs (
 			  order_id int(11) NOT NULL,
